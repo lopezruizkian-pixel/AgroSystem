@@ -1,0 +1,73 @@
+
+body {
+  background-color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.tarjeta-salud-container {
+  width: 80%;
+  margin: 40px auto;
+  text-align: center;
+}
+
+h2 {
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+h3 {
+  text-align: left;
+  margin-top: 30px;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px 30px;
+  justify-items: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+label {
+  text-align: left;
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+input {
+  border: 1px solid #c9c9c9;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+  outline: none;
+  background-color: #f5f5f5;
+}
+
+input:focus {
+  border-color: #8a73d6;
+  box-shadow: 0 0 5px rgba(138,115,214,0.3);
+}
+
+.btn-agregar {
+  margin-top: 40px;
+  padding: 10px 25px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-agregar:hover {
+  background-color: #3c3c3c;
+}
