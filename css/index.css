@@ -1,0 +1,134 @@
+:root {
+    --color-fondo-panel: rgba(122, 97, 78, 0.95); 
+    --color-input: #9c8470; 
+    --color-sombra: rgba(0, 0, 0, 0.4);
+    --color-texto-claro: #ffffff; 
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    
+    background-image: url('../img/Menu.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+}
+
+.panel-container {
+    display: flex;
+    width: 80vw;
+    height: 70vh;
+    max-width: 900px; 
+    box-shadow: 0 5px 20px var(--color-sombra);
+    border-radius: 5px; 
+    overflow: hidden; 
+}
+
+.welcome-panel {
+    flex: 1; 
+    background-color: var(--color-fondo-panel);
+    color: var(--color-texto-claro);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.welcome-title {
+    font-size: 2.2em;
+    font-style: italic; 
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+
+.welcome-message {
+    font-size: 0.9em;
+    max-width: 80%;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+
+
+.login-panel {
+    flex: 1; 
+    background-color: var(--color-fondo-panel); 
+    color: var(--color-texto-claro);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+}
+
+.logo-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 50px;
+    letter-spacing: 2px;
+}
+
+
+form {
+    width: 100%;
+    max-width: 300px; 
+    display: flex;
+    flex-direction: column;
+    gap: 30px; 
+}
+
+.input-field, .login-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background-color: var(--color-input);
+    color: var(--color-texto-claro);
+    border-radius: 5px;
+    font-size: 1.1em;
+    text-align: center;
+    
+    box-shadow: 2px 2px 5px var(--color-sombra); 
+}
+
+.input-field::placeholder {
+    color: var(--color-texto-claro);
+    opacity: 0.8; 
+}
+
+
+.login-button {
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #a89484; 
+}
+
+
+@media (max-width: 768px) {
+    .panel-container {
+        width: 90vw;
+        height: auto;
+    }
+    
+    .welcome-panel {
+        padding: 30px 10px;
+    }
+    
+    .login-panel {
+        padding: 40px 10px;
+    }
+    
+    .logo-title {
+        margin-bottom: 30px;
+    }
+}

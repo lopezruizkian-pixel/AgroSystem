@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Animales - Agrosystem</title>
+  <title>Medicamento</title>
   <link rel="stylesheet" href="../css/medicamento.css">
 </head>
 <body>
@@ -16,49 +16,84 @@
 
   <div class="contenedor-principal">
     <aside class="sidebar">
-      <button class="menu-btn activo">🐄 Animal</button>
-      <button class="menu-btn">💉 Medicamento</button>
+      <button class="menu-btn ">🐄 Animal</button>
+      <button class="menu-btn activo">💉 Medicamento</button>
       <button class="menu-btn">📋 Tarjeta de salud</button>
       <button class="menu-btn">🏥 Reporte médico</button>
       <button class="menu-btn">⚕️ Tratamiento</button>
       <button class="menu-btn">🛡️ Enfermedad</button>
     </aside>
 
-    <div class="form-container">
-  <h2>Agregar medicamento</h2>
-  <div class="form-card">
-    <div class="form-left">
+   <div class="tarjeta-salud-container">
+  <h2>AGREGAR MEDICAMENTO</h2>
+
+  <div class="form-grid">
+    <div class="form-group">
       <label><strong>Nombre:</strong></label>
       <input type="text" placeholder="">
-
-      <label><strong>Solución:</strong></label>
+    </div>
+    <div class="form-group">
+      <label><strong>Solucion:</strong></label>
       <input type="text" placeholder="">
-
+    </div>
+    <div class="form-group">
       <label><strong>Dosis:</strong></label>
       <input type="text" placeholder="">
-
+    </div>
+    <div class="form-group">
       <label><strong>Caducidad:</strong></label>
-      <input type="text" placeholder="">
-
-      <label><strong>Repetición:</strong></label>
-      <input type="text" placeholder="">
-
-      <label><strong>Vía:</strong></label>
       <input type="text" placeholder="">
     </div>
 
-    <div class="form-right">
-      <label><strong>Composición:</strong></label>
-      <textarea placeholder=""></textarea>
-
+    <div class="form-group">
+      <label><strong>Via:</strong></label>
+      <input type="text" placeholder="">
+    </div>
+    <div class="form-group">
+      <label><strong>Composicion:</strong></label>
+      <input type="text" placeholder="">
+    </div>
+    <div class="form-group">
       <label><strong>Indicaciones:</strong></label>
-      <textarea placeholder=""></textarea>
+      <input type="text" placeholder="">
+    </div>
+  </div>
+
+  <h3>Historial Médico</h3>
+  <div class="form-grid">
+    <div class="form-group">
+      <label><strong>Fecha:</strong></label>
+      <input type="text" placeholder="">
+    </div>
+    <div class="form-group">
+      <label><strong>Tipo de evento:</strong></label>
+      <input type="text" placeholder="">
+    </div>
+    <div class="form-group">
+      <label><strong>Diagnóstico:</strong></label>
+      <input type="text" placeholder="">
+    </div>
+    <div class="form-group">
+      <label><strong>Descripción:</strong></label>
+      <input type="text" placeholder="">
+    </div>
+
+    <div class="form-group">
+      <label><strong>Tratamiento aplicado:</strong></label>
+      <input type="text" placeholder="">
+    </div>
+    <div class="form-group">
+      <label><strong>Veterinario:</strong></label>
+      <input type="text" placeholder="">
+    </div>
+    <div class="form-group">
+      <label><strong>Estado:</strong></label>
+      <input type="text" placeholder="">
     </div>
   </div>
 
   <button class="btn-agregar">Agregar</button>
 </div>
-
   <script src="../js/medicamento.js"></script>
 </body>
 </html>

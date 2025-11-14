@@ -4,7 +4,6 @@ body {
   background-color: #fff;
 }
 
-/* Header */
 .header {
   background-color: rgba(114, 158, 100, 1);
   color: white;
@@ -30,13 +29,11 @@ body {
   font-size: 1.2rem;
 }
 
-/* Estructura general */
 .contenedor-principal {
   display: flex;
   height: calc(100vh - 60px);
 }
 
-/* Sidebar */
 .sidebar {
   background-color: rgba(173, 199, 166, 1);
   width: 180px;
@@ -63,13 +60,11 @@ body {
   background-color: rgba(114, 158, 100, 0.2);
 }
 
-/* Contenido */
 .contenido {
   flex: 1;
   padding: 20px 40px;
 }
 
-/* Buscador y botón agregar */
 .buscador-agregar {
   display: flex;
   justify-content: space-between;
@@ -108,7 +103,6 @@ body {
   cursor: pointer;
 }
 
-/* Tabla vacía (por ahora) */
 .tabla-animales {
   display: flex;
   flex-direction: column;
