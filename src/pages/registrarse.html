@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroSystem - Registro</title>
+    <link rel="stylesheet" href="../css/registrarse.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="registro-container">
+            <div class="registro-header">
+                <h1 class="logo-title">AGROSYSTEM</h1>
+                <p class="subtitle">INGRESA TUS DATOS</p>
+            </div>
+
+            <form id="formRegistro" class="registro-form">
+                <!-- Selector de Cargo -->
+                <div class="input-group">
+                    
+                    <select id="cargo" name="cargo" class="input-field" required>
+                        <option value="">Selecciona tu cargo</option>
+                        <option value="veterinario">Veterinario</option>
+                    </select>
+                </div>
+
+                <!-- Nombre completo -->
+                <div class="input-group">
+                    <label for="nombreCompleto">Nombre completo</label>
+                    <span class="icon">👤</span>
+                    <input 
+                        type="text" 
+                        id="nombreCompleto" 
+                        name="nombreCompleto" 
+                        placeholder="ingrese su nombre " 
+                        class="input-field input-with-icon"
+                        required
+                    >
+                </div>
+
+                <!-- Usuario -->
+                <div class="input-group">
+                    <label for="usuario">Usuario</label>
+                    <span class="icon">👤</span>
+                    <input 
+                        type="text" 
+                        id="usuario" 
+                        name="usuario" 
+                        placeholder="Ingrese un usuario" 
+                        class="input-field input-with-icon"
+                        required
+                    >
+                </div>
+
+                <!-- Contraseña -->
+                <div class="input-group">
+                    <label for="contrasena">Contraseña</label>
+                    <span class="icon">🔒</span>
+                    <input 
+                        type="password" 
+                        id="contrasena" 
+                        name="contrasena" 
+                        placeholder="••••••••" 
+                        class="input-field input-with-icon"
+                        required
+                    >
+                    <span class="toggle-eye" id="togglePassword">👁️</span>
+                </div>
+
+                <!-- Teléfono -->
+                <div class="input-group">
+                    <label for="telefono">Teléfono</label>
+                    <span class="icon">📞</span>
+                    <input 
+                        type="tel" 
+                        id="telefono" 
+                        name="telefono" 
+                        placeholder="Ingrese su num de telefono completo" 
+                        class="input-field input-with-icon"
+                        required
+                    >
+                </div>
+
+                <!-- Botón de Registro -->
+                <button type="submit" class="registro-button">Registrarse</button>
+
+                <!-- Link para volver al login -->
+                <p class="login-text">
+                    ¿Ya tienes una cuenta? 
+                    <a href="../../index.html" class="login-link">Iniciar sesión</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/registrarse.js"></script>
+</body>
+</html>
