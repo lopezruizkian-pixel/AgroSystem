@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AGROSYSTEM - Home</title>
+  <title>Estadísticas - AGROSYSTEM</title>
   <link rel="stylesheet" href="../css/estilos.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    .estadisticas-home { margin-top: 20px; }
-    .estadisticas-home ul { list-style: none; padding: 0; }
-    .estadisticas-home li { display: flex; justify-content: space-between; align-items: center; background: #f3f3f3; margin-bottom: 5px; padding: 8px 12px; border-radius: 8px; }
-    .estadisticas-home i { margin-right: 8px; }
-    .form-agregar { margin-top: 20px; display: flex; gap: 10px; }
-    .form-agregar input { padding: 5px 8px; border-radius: 6px; border: 1px solid #ccc; }
-    .form-agregar button { padding: 5px 10px; border-radius: 6px; border: none; background: #4CAF50; color: white; cursor: pointer; }
+    .contenido { display: flex; flex-direction: column; align-items: center; }
+    #graficoEnfermedad { max-width: 300px; max-height: 300px; }
+    .contenidoEstadisticas { text-align: center; margin-top: 20px; }
+    .contenidoEstadisticas p { margin: 5px 0; font-size: 1rem; }
   </style>
 </head>
 <body>
@@ -36,20 +34,13 @@
       </aside>
 
       <main class="contenido">
-        <h2>Enfermedades más frecuentes</h2>
-        <div class="estadisticas-home">
-          <ul id="listaEnfermedades"></ul>
-        </div>
-
-        <div class="form-agregar">
-          <input type="text" id="nombreEnfermedad" placeholder="Nombre enfermedad">
-          <input type="number" id="numCasos" placeholder="Casos" min="1">
-          <button id="btnAgregarEnfermedad">Agregar</button>
-        </div>
+        <h2 id="tituloEstadistica">Estadísticas</h2>
+        <canvas id="graficoEnfermedad"></canvas>
+        <div class="contenidoEstadisticas" id="contenidoEstadisticas"></div>
       </main>
     </div>
   </div>
 
-  <script src="../js/home.js"></script>
+  <script src="../js/estadisticas.js"></script>
 </body>
 </html>
