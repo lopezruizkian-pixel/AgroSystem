@@ -16,11 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
           break;
 
         case texto.includes("tarjeta"):
-          window.location.href = "tarjetaSalud.html";
+          window.location.href = "tarjeta_salud.html";
           break;
 
         case texto.includes("reporte"):
-          window.location.href = "reporteMedico.html";
+          window.location.href = "reporte_medico.html";
           break;
 
         case texto.includes("tratamiento"):
