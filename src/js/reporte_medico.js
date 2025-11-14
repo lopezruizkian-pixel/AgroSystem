@@ -1,41 +1,26 @@
-// Arreglo para almacenar animales
-let animales = [];
+// Arreglo para almacenar reportes médicos
+let reportesMedicos = [];
 
 // Selección de elementos
-const modal = document.getElementById('modalAgregarAnimal');
-const btnGuardar = document.getElementById('btnGuardarAnimal');
+const modal = document.getElementById('modalAgregarReporte');
+const btnGuardar = document.getElementById('btnGuardarReporte');
 const btnCerrarModal = document.getElementById('btnCerrarModal');
 const btnAgregar = document.querySelector('.btn-agregar');
-const tablaAnimales = document.querySelector('.tabla-animales');
-const inputNombre = document.getElementById('nombre');
+const tablaReportes = document.querySelector('.tabla-animales');
 const inputNumArete = document.getElementById('numArete');
-const selectRebano = document.getElementById('rebano');
-const selectProcedencia = document.getElementById('procedencia');
-
-// Agregamos un select para Sexo en el HTML con id="sexo"
-const selectSexo = document.getElementById('sexo');
-
+const inputFecha = document.getElementById('fecha');
+const inputVeterinario = document.getElementById('veterinario');
+const inputDiagnostico = document.getElementById('diagnostico');
+const inputSintomas = document.getElementById('sintomas');
+const inputTratamiento = document.getElementById('tratamiento');
+const inputMedicamentos = document.getElementById('medicamentos');
+const selectEstado = document.getElementById('estado');
+const inputObservaciones = document.getElementById('observaciones');
 const buscador = document.querySelector('.buscador input');
 
-// Modal y contenido de visualización
-let modalVisualizar = document.getElementById('modalVisualizarAnimal');
-if (!modalVisualizar) {
-  modalVisualizar = document.createElement('div');
-  modalVisualizar.id = 'modalVisualizarAnimal';
-  modalVisualizar.classList.add('modal');
-  modalVisualizar.innerHTML = `
-    <div class="modal-contenido" style="width: 400px;">
-      <h2>Detalle del Animal</h2>
-      <div id="contenidoAnimal"></div>
-      <div class="botones">
-        <button id="btnCerrarVisualizar">Cerrar</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modalVisualizar);
-}
-
-const contenidoAnimal = document.getElementById('contenidoAnimal');
+// Modal de visualización
+const modalVisualizar = document.getElementById('modalVisualizarReporte');
+const contenidoReporte = document.getElementById('contenidoReporte');
 const btnCerrarVisualizar = document.getElementById('btnCerrarVisualizar');
 
 let editIndex = null;
@@ -58,47 +43,65 @@ window.addEventListener('click', (e) => {
   if (e.target === modalVisualizar) modalVisualizar.style.display = 'none';
 });
 
-// Limpiar modal de agregar/editar
+// Limpiar modal
 function limpiarModal() {
-  inputNombre.value = '';
   inputNumArete.value = '';
-  selectRebano.value = 'Vaca';
-  selectProcedencia.value = 'Interno';
-  selectSexo.value = 'H';
+  inputFecha.value = '';
+  inputVeterinario.value = '';
+  inputDiagnostico.value = '';
+  inputSintomas.value = '';
+  inputTratamiento.value = '';
+  inputMedicamentos.value = '';
+  selectEstado.value = 'Estable';
+  inputObservaciones.value = '';
   editIndex = null;
 }
 
-// Guardar animal (agregar o editar)
+// Guardar reporte (agregar o editar)
 btnGuardar.addEventListener('click', () => {
-  const nombre = inputNombre.value.trim();
   const numArete = inputNumArete.value.trim();
-  const rebano = selectRebano.value;
-  const procedencia = selectProcedencia.value;
-  const sexo = selectSexo.value;
+  const fecha = inputFecha.value.trim();
+  const veterinario = inputVeterinario.value.trim();
+  const diagnostico = inputDiagnostico.value.trim();
+  const sintomas = inputSintomas.value.trim();
+  const tratamiento = inputTratamiento.value.trim();
+  const medicamentos = inputMedicamentos.value.trim();
+  const estado = selectEstado.value;
+  const observaciones = inputObservaciones.value.trim();
 
-  if (!nombre || !numArete || !sexo) {
-    alert('Por favor complete todos los campos.');
+  if (!numArete || !fecha || !veterinario || !diagnostico) {
+    alert('Por favor complete los campos obligatorios: Animal, Fecha, Veterinario y Diagnóstico.');
     return;
   }
 
-  const animalData = { nombre, numArete, rebano, procedencia, sexo };
+  const reporteData = {
+    numArete,
+    fecha,
+    veterinario,
+    diagnostico,
+    sintomas,
+    tratamiento,
+    medicamentos,
+    estado,
+    observaciones
+  };
 
   if (editIndex !== null) {
-    animales[editIndex] = animalData;
+    reportesMedicos[editIndex] = reporteData;
   } else {
-    animales.push(animalData);
+    reportesMedicos.push(reporteData);
   }
 
   modal.style.display = 'none';
-  renderizarAnimales();
+  renderizarReportes();
 });
 
-// Renderizar animales en la tabla principal
-function renderizarAnimales(lista = animales) {
-  tablaAnimales.innerHTML = '';
+// Renderizar reportes en la tabla
+function renderizarReportes(lista = reportesMedicos) {
+  tablaReportes.innerHTML = '';
 
   if (lista.length === 0) {
-    tablaAnimales.innerHTML = '<p>No hay animales registrados.</p>';
+    tablaReportes.innerHTML = '<p>No hay reportes médicos registrados.</p>';
     return;
   }
 
@@ -106,9 +109,11 @@ function renderizarAnimales(lista = animales) {
   tabla.innerHTML = `
     <thead>
       <tr>
-        <th>Nombre</th>
-        <th>Número de Arete</th>
-        <th>Sexo</th>
+        <th>Num. Arete</th>
+        <th>Fecha</th>
+        <th>Veterinario</th>
+        <th>Diagnóstico</th>
+        <th>Estado</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -116,12 +121,14 @@ function renderizarAnimales(lista = animales) {
   `;
   const tbody = tabla.querySelector('tbody');
 
-  lista.forEach((animal) => {
+  lista.forEach((reporte) => {
     const fila = document.createElement('tr');
     fila.innerHTML = `
-      <td>${animal.nombre}</td>
-      <td>${animal.numArete}</td>
-      <td>${animal.sexo}</td>
+      <td>${reporte.numArete}</td>
+      <td>${reporte.fecha}</td>
+      <td>${reporte.veterinario}</td>
+      <td>${reporte.diagnostico}</td>
+      <td>${reporte.estado}</td>
       <td>
         <button class="btn-ver">👁️</button>
         <button class="btn-editar">✏️</button>
@@ -131,51 +138,60 @@ function renderizarAnimales(lista = animales) {
 
     // Visualizar detalle completo
     fila.querySelector('.btn-ver').addEventListener('click', () => {
-      contenidoAnimal.innerHTML = `
-        <p><strong>Nombre:</strong> ${animal.nombre}</p>
-        <p><strong>Número de Arete:</strong> ${animal.numArete}</p>
-        <p><strong>Sexo:</strong> ${animal.sexo}</p>
-        <p><strong>Rebaño:</strong> ${animal.rebano}</p>
-        <p><strong>Procedencia:</strong> ${animal.procedencia}</p>
+      contenidoReporte.innerHTML = `
+        <p><strong>Animal (Num. Arete):</strong> ${reporte.numArete}</p>
+        <p><strong>Fecha:</strong> ${reporte.fecha}</p>
+        <p><strong>Veterinario:</strong> ${reporte.veterinario}</p>
+        <p><strong>Diagnóstico:</strong> ${reporte.diagnostico}</p>
+        <p><strong>Síntomas:</strong> ${reporte.sintomas || 'N/A'}</p>
+        <p><strong>Tratamiento:</strong> ${reporte.tratamiento || 'N/A'}</p>
+        <p><strong>Medicamentos:</strong> ${reporte.medicamentos || 'N/A'}</p>
+        <p><strong>Estado:</strong> ${reporte.estado}</p>
+        <p><strong>Observaciones:</strong> ${reporte.observaciones || 'N/A'}</p>
       `;
       modalVisualizar.style.display = 'flex';
     });
 
     // Editar
     fila.querySelector('.btn-editar').addEventListener('click', () => {
-      inputNombre.value = animal.nombre;
-      inputNumArete.value = animal.numArete;
-      selectRebano.value = animal.rebano;
-      selectProcedencia.value = animal.procedencia;
-      selectSexo.value = animal.sexo;
-      editIndex = animales.indexOf(animal);
+      inputNumArete.value = reporte.numArete;
+      inputFecha.value = reporte.fecha;
+      inputVeterinario.value = reporte.veterinario;
+      inputDiagnostico.value = reporte.diagnostico;
+      inputSintomas.value = reporte.sintomas;
+      inputTratamiento.value = reporte.tratamiento;
+      inputMedicamentos.value = reporte.medicamentos;
+      selectEstado.value = reporte.estado;
+      inputObservaciones.value = reporte.observaciones;
+      editIndex = reportesMedicos.indexOf(reporte);
       modal.style.display = 'flex';
     });
 
     // Eliminar
     fila.querySelector('.btn-eliminar').addEventListener('click', () => {
-      if (confirm('¿Desea eliminar este animal?')) {
-        const globalIndex = animales.indexOf(animal);
-        animales.splice(globalIndex, 1);
-        renderizarAnimales();
+      if (confirm('¿Desea eliminar este reporte médico?')) {
+        const globalIndex = reportesMedicos.indexOf(reporte);
+        reportesMedicos.splice(globalIndex, 1);
+        renderizarReportes();
       }
     });
 
     tbody.appendChild(fila);
   });
 
-  tablaAnimales.appendChild(tabla);
+  tablaReportes.appendChild(tabla);
 }
 
-// Buscar animales
+// Buscar reportes
 buscador.addEventListener('input', () => {
   const texto = buscador.value.toLowerCase();
-  const resultados = animales.filter(a =>
-    a.nombre.toLowerCase().includes(texto) ||
-    a.numArete.toLowerCase().includes(texto)
+  const resultados = reportesMedicos.filter(r =>
+    r.numArete.toLowerCase().includes(texto) ||
+    r.veterinario.toLowerCase().includes(texto) ||
+    r.diagnostico.toLowerCase().includes(texto)
   );
-  renderizarAnimales(resultados);
+  renderizarReportes(resultados);
 });
 
 // Inicializar tabla
-renderizarAnimales();
+renderizarReportes();

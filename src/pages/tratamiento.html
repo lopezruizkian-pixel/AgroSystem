@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tratamiento - Agrosystem</title>
+  <link rel="stylesheet" href="../css/tratamiento.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .header { background: #4CAF50; color: white; padding: 10px; }
+    .contenedor-principal { display: flex; }
+    .sidebar { width: 200px; background: #f1f1f1; padding: 10px; }
+    .contenido { flex: 1; padding: 10px; }
+    .buscador { margin-bottom: 10px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    .modal { display: none; position: fixed; top: 0; left:0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-contenido { background: white; padding: 20px; width: 400px; border-radius: 5px; max-height: 80vh; overflow-y: auto; }
+    .botones { margin-top: 10px; display: flex; justify-content: space-between; }
+    .btn-agregar { margin-bottom: 10px; }
+    button { cursor: pointer; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 5px; margin-top: 3px; box-sizing: border-box; }
+    textarea { resize: vertical; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <img src="../img/logo.png" alt="Logo Agrosystem" style="height:40px;">
+      <span class="nombre">AGROSYSTEM</span>
+    </div>
+  </header>
+
+  <div class="contenedor-principal">
+    <aside class="sidebar">
+      <button class="menu-btn">🐄 Animal</button>
+      <button class="menu-btn">💉 Medicamento</button>
+      <button class="menu-btn">📋 Tarjeta de salud</button>
+      <button class="menu-btn">🏥 Reporte médico</button>
+      <button class="menu-btn activo">⚕️ Tratamiento</button>
+      <button class="menu-btn">🛡️ Enfermedad</button>
+    </aside>
+
+    <main class="contenido">
+      <div class="buscador-agregar">
+        <div class="buscador">
+          <input type="text" placeholder="Buscar">
+          <button>🔍</button>
+        </div>
+        <button class="btn-agregar">Agregar Tratamiento ➕</button>
+      </div>
+
+      <div class="tabla-animales">
+        <!-- Aquí se mostrará la tabla de tratamientos -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal para visualizar tratamiento -->
+  <div id="modalVisualizarTratamiento" class="modal">
+    <div class="modal-contenido" style="width: 500px;">
+      <h2>Detalle del Tratamiento</h2>
+      <div id="contenidoTratamiento"></div>
+      <div class="botones">
+        <button id="btnCerrarVisualizar">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para agregar/editar tratamiento -->
+  <div id="modalAgregarTratamiento" class="modal">
+    <div class="modal-contenido">
+      <h2>Agregar Tratamiento</h2>
+
+      <label>Animal (Num. Arete):</label>
+      <input type="text" id="numArete" placeholder="Ej: A001">
+
+      <label>Nombre del Tratamiento:</label>
+      <input type="text" id="nombreTratamiento" placeholder="Nombre descriptivo">
+
+      <label>Fecha de Inicio:</label>
+      <input type="date" id="fechaInicio">
+
+      <label>Fecha de Fin:</label>
+      <input type="date" id="fechaFin">
+
+      <label>Enfermedad/Condición:</label>
+      <input type="text" id="enfermedad" placeholder="Diagnóstico o condición">
+
+      <label>Medicamentos:</label>
+      <textarea id="medicamentos" rows="3" placeholder="Lista de medicamentos con dosis"></textarea>
+
+      <label>Dosis:</label>
+      <input type="text" id="dosis" placeholder="Ej: 5ml cada 12 horas">
+
+      <label>Vía de Administración:</label>
+      <select id="via">
+        <option value="Oral">Oral</option>
+        <option value="Intramuscular">Intramuscular</option>
+        <option value="Intravenosa">Intravenosa</option>
+        <option value="Subcutánea">Subcutánea</option>
+        <option value="Tópica">Tópica</option>
+      </select>
+
+      <label>Frecuencia:</label>
+      <input type="text" id="frecuencia" placeholder="Ej: Cada 8 horas, 2 veces al día">
+
+      <label>Duración:</label>
+      <input type="text" id="duracion" placeholder="Ej: 7 días, 2 semanas">
+
+      <label>Veterinario Responsable:</label>
+      <input type="text" id="veterinario" placeholder="Nombre del veterinario">
+
+      <label>Estado:</label>
+      <select id="estado">
+        <option value="En curso">En curso</option>
+        <option value="Completado">Completado</option>
+        <option value="Suspendido">Suspendido</option>
+        <option value="En pausa">En pausa</option>
+      </select>
+
+      <label>Notas/Observaciones:</label>
+      <textarea id="observaciones" rows="3" placeholder="Indicaciones especiales, reacciones observadas, etc."></textarea>
+
+      <div class="botones">
+        <button id="btnGuardarTratamiento">Guardar</button>
+        <button id="btnCerrarModal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/tratamiento.js"></script>
+</body>
+</html>
