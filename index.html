@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgroSystem - Bienvenida</title>
-    <link rel="stylesheet" href="css/index.css"> 
+  <link rel="stylesheet" href="src/css/index.css">
 </head>
 <body>
     <div class="main-wrapper">
@@ -19,14 +19,28 @@
             </div>
             
             <div class="login-panel">
-                <h1 class="logo-title">AgroSystem</h1>
+                <h1 class="logo-title">AGROSYSTEM</h1>
                 
                 <form>
-                    <input type="text" placeholder="Ingrese su usuario" class="input-field">
-                    
-                    <input type="password" placeholder="Contraseña" class="input-field">
-                    
+
+                    <div class="input-group">
+                        <span class="icon">👤</span>
+                        <input type="text" placeholder="Ingrese su usuario" class="input-field">
+                    </div>
+
+                    <div class="input-group">
+                        <span class="icon">🔒</span>
+                        <input type="password" placeholder="Contraseña" class="input-field">
+                        <span class="toggle-eye">👁️</span>
+                    </div>
+
                     <button type="submit" class="login-button">Iniciar sesión</button>
+
+                    <p class="register-text">
+                        ¿Aún no tienes una cuenta? 
+                        <a href="#" class="register-link">Registrarse</a>
+                    </p>
+
                 </form>
             </div>
             
