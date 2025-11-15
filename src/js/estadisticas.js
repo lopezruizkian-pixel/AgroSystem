@@ -11,7 +11,7 @@ if (enfermedades.length === 0) {
   let enfermedad;
   if (indexSeleccionado !== null) {
     enfermedad = enfermedades[indexSeleccionado];
-    titulo.textContent = `Estadísticas de ${enfermedad}`;
+    titulo.textContent = `Estadísticas`;
     contenido.innerHTML = `<p><i class="fas fa-virus"></i> Casos: ${enfermedad.casos}</p>`;
   } else {
     titulo.textContent = 'Estadísticas generales';
