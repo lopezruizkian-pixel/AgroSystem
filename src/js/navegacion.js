@@ -38,3 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   
 });
+function irHome() {
+  window.location.href = 'home.html';
+}
