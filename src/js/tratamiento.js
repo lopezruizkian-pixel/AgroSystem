@@ -28,6 +28,40 @@ const contenidoTratamiento = document.getElementById('contenidoTratamiento');
 const btnCerrarVisualizar = document.getElementById('btnCerrarVisualizar');
 
 let editIndex = null;
+let tratamientoAEliminar = null;
+
+// Crear modal de confirmación de eliminación
+const modalEliminar = document.createElement('div');
+modalEliminar.id = 'modalEliminarTratamiento';
+modalEliminar.classList.add('modal-overlay');
+modalEliminar.innerHTML = `
+  <div class="modal-container">
+    <div class="modal-header-custom">
+      <h2 class="modal-title-custom">
+        <i class="fas fa-trash-alt"></i> Eliminar Tratamiento
+      </h2>
+      <button onclick="cerrarModalEliminar()" class="btn-close-custom">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body-custom">
+      <div class="modal-icon-warning" style="background-color: #f8d7da;">
+        <i class="fas fa-exclamation-triangle" style="color: #721c24;"></i>
+      </div>
+      <p class="modal-message">¿Estás seguro de eliminar este tratamiento?</p>
+      <p class="modal-submessage" id="mensajeEliminarTratamiento">Esta acción no se puede deshacer.</p>
+    </div>
+    <div class="modal-footer-custom">
+      <button onclick="cerrarModalEliminar()" class="btn-modal-cancelar">
+        <i class="fas fa-times"></i> Cancelar
+      </button>
+      <button onclick="confirmarEliminarTratamiento()" class="btn-modal-confirmar">
+        <i class="fas fa-trash-alt"></i> Eliminar
+      </button>
+    </div>
+  </div>
+`;
+document.body.appendChild(modalEliminar);
 
 // Abrir modal de agregar/editar
 btnAgregar.addEventListener('click', () => {
@@ -112,6 +146,30 @@ btnGuardar.addEventListener('click', () => {
   renderizarTratamientos();
 });
 
+// Funciones del modal de eliminar
+function abrirModalEliminar(tratamiento) {
+  tratamientoAEliminar = tratamiento;
+  document.getElementById('mensajeEliminarTratamiento').textContent = 
+    `Se eliminará el tratamiento "${tratamiento.nombreTratamiento}" del animal ${tratamiento.numArete}. Esta acción no se puede deshacer.`;
+  document.getElementById('modalEliminarTratamiento').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModalEliminar() {
+  document.getElementById('modalEliminarTratamiento').classList.remove('active');
+  document.body.style.overflow = 'auto';
+  tratamientoAEliminar = null;
+}
+
+function confirmarEliminarTratamiento() {
+  if (tratamientoAEliminar) {
+    const globalIndex = tratamientos.indexOf(tratamientoAEliminar);
+    tratamientos.splice(globalIndex, 1);
+    renderizarTratamientos();
+    cerrarModalEliminar();
+  }
+}
+
 // Renderizar tratamientos en la tabla
 function renderizarTratamientos(lista = tratamientos) {
   tablaTratamientos.innerHTML = '';
@@ -146,9 +204,9 @@ function renderizarTratamientos(lista = tratamientos) {
       <td>${tratamiento.fechaInicio}</td>
       <td>${tratamiento.estado}</td>
       <td>
-        <button class="btn-ver">👁️</button>
-        <button class="btn-editar">✏️</button>
-        <button class="btn-eliminar">🗑️</button>
+        <button class="btn-ver" title="Ver detalles">👁️</button>
+        <button class="btn-editar" title="Editar">✏️</button>
+        <button class="btn-eliminar" title="Eliminar">🗑️</button>
       </td>
     `;
 
@@ -191,13 +249,9 @@ function renderizarTratamientos(lista = tratamientos) {
       modal.style.display = 'flex';
     });
 
-    // Eliminar
+    // Eliminar con modal
     fila.querySelector('.btn-eliminar').addEventListener('click', () => {
-      if (confirm('¿Desea eliminar este tratamiento?')) {
-        const globalIndex = tratamientos.indexOf(tratamiento);
-        tratamientos.splice(globalIndex, 1);
-        renderizarTratamientos();
-      }
+      abrirModalEliminar(tratamiento);
     });
 
     tbody.appendChild(fila);
@@ -215,6 +269,23 @@ buscador.addEventListener('input', () => {
     t.enfermedad.toLowerCase().includes(texto)
   );
   renderizarTratamientos(resultados);
+});
+
+// Cerrar modal con ESC o click fuera
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const modalElim = document.getElementById('modalEliminarTratamiento');
+    if (modalElim && modalElim.classList.contains('active')) {
+      cerrarModalEliminar();
+    }
+  }
+});
+
+window.addEventListener('click', (e) => {
+  const modalElim = document.getElementById('modalEliminarTratamiento');
+  if (e.target === modalElim) {
+    cerrarModalEliminar();
+  }
 });
 
 // Inicializar tabla

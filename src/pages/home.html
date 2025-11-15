@@ -37,7 +37,7 @@
           <button class="menu-btn"><i class="fas fa-shield-virus"></i> Enfermedad</button>
         </div>
         
-        <button onclick="cerrarSesion()" class="btn-logout-sidebar">
+        <button onclick="abrirModalCerrarSesion()" class="btn-logout-sidebar">
           <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
         </button>
       </aside>
@@ -54,6 +54,35 @@
           <button id="btnAgregarEnfermedad">Agregar</button>
         </div>
       </main>
+    </div>
+  </div>
+
+  <!-- Modal Cerrar Sesión -->
+  <div id="modalCerrarSesion" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header-custom">
+        <h2 class="modal-title-custom">
+          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </h2>
+        <button onclick="cerrarModalCerrarSesion()" class="btn-close-custom">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body-custom">
+        <div class="modal-icon-warning">
+          <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <p class="modal-message">¿Estás seguro de que deseas cerrar sesión?</p>
+        <p class="modal-submessage">Se cerrará tu sesión actual y deberás iniciar sesión nuevamente.</p>
+      </div>
+      <div class="modal-footer-custom">
+        <button onclick="cerrarModalCerrarSesion()" class="btn-modal-cancelar">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+        <button onclick="confirmarCerrarSesion()" class="btn-modal-confirmar">
+          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </button>
+      </div>
     </div>
   </div>
 

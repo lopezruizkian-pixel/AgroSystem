@@ -24,6 +24,40 @@ const contenidoReporte = document.getElementById('contenidoReporte');
 const btnCerrarVisualizar = document.getElementById('btnCerrarVisualizar');
 
 let editIndex = null;
+let reporteAEliminar = null;
+
+// Crear modal de confirmación de eliminación
+const modalEliminar = document.createElement('div');
+modalEliminar.id = 'modalEliminarReporte';
+modalEliminar.classList.add('modal-overlay');
+modalEliminar.innerHTML = `
+  <div class="modal-container">
+    <div class="modal-header-custom">
+      <h2 class="modal-title-custom">
+        <i class="fas fa-trash-alt"></i> Eliminar Reporte Médico
+      </h2>
+      <button onclick="cerrarModalEliminar()" class="btn-close-custom">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body-custom">
+      <div class="modal-icon-warning" style="background-color: #f8d7da;">
+        <i class="fas fa-exclamation-triangle" style="color: #721c24;"></i>
+      </div>
+      <p class="modal-message">¿Estás seguro de eliminar este reporte médico?</p>
+      <p class="modal-submessage" id="mensajeEliminarReporte">Esta acción no se puede deshacer.</p>
+    </div>
+    <div class="modal-footer-custom">
+      <button onclick="cerrarModalEliminar()" class="btn-modal-cancelar">
+        <i class="fas fa-times"></i> Cancelar
+      </button>
+      <button onclick="confirmarEliminarReporte()" class="btn-modal-confirmar">
+        <i class="fas fa-trash-alt"></i> Eliminar
+      </button>
+    </div>
+  </div>
+`;
+document.body.appendChild(modalEliminar);
 
 // Abrir modal de agregar/editar
 btnAgregar.addEventListener('click', () => {
@@ -96,6 +130,30 @@ btnGuardar.addEventListener('click', () => {
   renderizarReportes();
 });
 
+// Funciones del modal de eliminar
+function abrirModalEliminar(reporte) {
+  reporteAEliminar = reporte;
+  document.getElementById('mensajeEliminarReporte').textContent = 
+    `Se eliminará el reporte médico del animal ${reporte.numArete} (Fecha: ${reporte.fecha}). Esta acción no se puede deshacer.`;
+  document.getElementById('modalEliminarReporte').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModalEliminar() {
+  document.getElementById('modalEliminarReporte').classList.remove('active');
+  document.body.style.overflow = 'auto';
+  reporteAEliminar = null;
+}
+
+function confirmarEliminarReporte() {
+  if (reporteAEliminar) {
+    const globalIndex = reportesMedicos.indexOf(reporteAEliminar);
+    reportesMedicos.splice(globalIndex, 1);
+    renderizarReportes();
+    cerrarModalEliminar();
+  }
+}
+
 // Renderizar reportes en la tabla
 function renderizarReportes(lista = reportesMedicos) {
   tablaReportes.innerHTML = '';
@@ -130,9 +188,9 @@ function renderizarReportes(lista = reportesMedicos) {
       <td>${reporte.diagnostico}</td>
       <td>${reporte.estado}</td>
       <td>
-        <button class="btn-ver">👁️</button>
-        <button class="btn-editar">✏️</button>
-        <button class="btn-eliminar">🗑️</button>
+        <button class="btn-ver" title="Ver detalles">👁️</button>
+        <button class="btn-editar" title="Editar">✏️</button>
+        <button class="btn-eliminar" title="Eliminar">🗑️</button>
       </td>
     `;
 
@@ -167,13 +225,9 @@ function renderizarReportes(lista = reportesMedicos) {
       modal.style.display = 'flex';
     });
 
-    // Eliminar
+    // Eliminar con modal
     fila.querySelector('.btn-eliminar').addEventListener('click', () => {
-      if (confirm('¿Desea eliminar este reporte médico?')) {
-        const globalIndex = reportesMedicos.indexOf(reporte);
-        reportesMedicos.splice(globalIndex, 1);
-        renderizarReportes();
-      }
+      abrirModalEliminar(reporte);
     });
 
     tbody.appendChild(fila);
@@ -191,6 +245,23 @@ buscador.addEventListener('input', () => {
     r.diagnostico.toLowerCase().includes(texto)
   );
   renderizarReportes(resultados);
+});
+
+// Cerrar modal con ESC o click fuera
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const modalElim = document.getElementById('modalEliminarReporte');
+    if (modalElim && modalElim.classList.contains('active')) {
+      cerrarModalEliminar();
+    }
+  }
+});
+
+window.addEventListener('click', (e) => {
+  const modalElim = document.getElementById('modalEliminarReporte');
+  if (e.target === modalElim) {
+    cerrarModalEliminar();
+  }
 });
 
 // Inicializar tabla

@@ -63,13 +63,48 @@ function irPerfil() {
   window.location.href = './perfil.html';
 }
 
-// Función para cerrar sesión
-function cerrarSesion() {
-  if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-    localStorage.removeItem('usuarioAgroSystem');
-    localStorage.removeItem('datosUsuarioAgroSystem');
-    window.location.href = '../../index.html';
-  }
+// Funciones del modal de cerrar sesión
+function abrirModalCerrarSesion() {
+  const modal = document.getElementById('modalCerrarSesion');
+  modal.classList.add('active');
+  
+  // Prevenir scroll del body cuando el modal está abierto
+  document.body.style.overflow = 'hidden';
 }
+
+function cerrarModalCerrarSesion() {
+  const modal = document.getElementById('modalCerrarSesion');
+  modal.classList.remove('active');
+  
+  // Restaurar scroll del body
+  document.body.style.overflow = 'auto';
+}
+
+function confirmarCerrarSesion() {
+  // Limpiar datos de sesión
+  localStorage.removeItem('usuarioAgroSystem');
+  localStorage.removeItem('datosUsuarioAgroSystem');
+  
+  // Redirigir al login
+  window.location.href = '../../index.html';
+}
+
+// Cerrar modal al hacer clic fuera de él
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('modalCerrarSesion');
+  if (event.target === modal) {
+    cerrarModalCerrarSesion();
+  }
+});
+
+// Cerrar modal con la tecla ESC
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    const modal = document.getElementById('modalCerrarSesion');
+    if (modal.classList.contains('active')) {
+      cerrarModalCerrarSesion();
+    }
+  }
+});
 
 renderizarLista();

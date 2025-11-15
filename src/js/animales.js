@@ -36,6 +36,7 @@ const contenidoAnimal = document.getElementById('contenidoAnimal');
 const btnCerrarVisualizar = document.getElementById('btnCerrarVisualizar');
 
 let editIndex = null;
+let animalAEliminar = null;
 
 // Modal adicional según Rebaño
 let modalSecundario = document.createElement('div');
@@ -58,6 +59,39 @@ const btnGuardarSecundario = document.getElementById('btnGuardarSecundario');
 const btnCerrarSecundario = document.getElementById('btnCerrarSecundario');
 
 let animalTemp = {}; // Guardar temporalmente los datos del primer modal
+
+// Crear modal de confirmación de eliminación
+const modalEliminar = document.createElement('div');
+modalEliminar.id = 'modalEliminarAnimal';
+modalEliminar.classList.add('modal-overlay');
+modalEliminar.innerHTML = `
+  <div class="modal-container">
+    <div class="modal-header-custom">
+      <h2 class="modal-title-custom">
+        <i class="fas fa-trash-alt"></i> Eliminar Animal
+      </h2>
+      <button onclick="cerrarModalEliminar()" class="btn-close-custom">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body-custom">
+      <div class="modal-icon-warning" style="background-color: #f8d7da;">
+        <i class="fas fa-exclamation-triangle" style="color: #721c24;"></i>
+      </div>
+      <p class="modal-message">¿Estás seguro de eliminar este animal?</p>
+      <p class="modal-submessage" id="mensajeEliminarAnimal">Esta acción no se puede deshacer.</p>
+    </div>
+    <div class="modal-footer-custom">
+      <button onclick="cerrarModalEliminar()" class="btn-modal-cancelar">
+        <i class="fas fa-times"></i> Cancelar
+      </button>
+      <button onclick="confirmarEliminarAnimal()" class="btn-modal-confirmar">
+        <i class="fas fa-trash-alt"></i> Eliminar
+      </button>
+    </div>
+  </div>
+`;
+document.body.appendChild(modalEliminar);
 
 // Abrir modal principal
 btnAgregar.addEventListener('click', () => {
@@ -184,6 +218,30 @@ btnGuardarSecundario.addEventListener('click', () => {
   renderizarAnimales();
 });
 
+// Funciones del modal de eliminar
+function abrirModalEliminar(animal) {
+  animalAEliminar = animal;
+  document.getElementById('mensajeEliminarAnimal').textContent = 
+    `Se eliminará el animal "${animal.nombre}" (Arete: ${animal.numArete}). Esta acción no se puede deshacer.`;
+  document.getElementById('modalEliminarAnimal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModalEliminar() {
+  document.getElementById('modalEliminarAnimal').classList.remove('active');
+  document.body.style.overflow = 'auto';
+  animalAEliminar = null;
+}
+
+function confirmarEliminarAnimal() {
+  if (animalAEliminar) {
+    const idx = animales.indexOf(animalAEliminar);
+    animales.splice(idx, 1);
+    renderizarAnimales();
+    cerrarModalEliminar();
+  }
+}
+
 // Renderizar animales
 function renderizarAnimales(lista = animales){
   tablaAnimales.innerHTML = '';
@@ -214,9 +272,9 @@ function renderizarAnimales(lista = animales){
       <td>${animal.numArete}</td>
       <td>${animal.sexo}</td>
       <td>
-        <button class="btn-ver">👁️</button>
-        <button class="btn-editar">✏️</button>
-        <button class="btn-eliminar">🗑️</button>
+        <button class="btn-ver" title="Ver detalles">👁️</button>
+        <button class="btn-editar" title="Editar">✏️</button>
+        <button class="btn-eliminar" title="Eliminar">🗑️</button>
       </td>
     `;
 
@@ -296,13 +354,9 @@ function renderizarAnimales(lista = animales){
       modalSecundario.style.display = 'flex';
     });
 
-    // Eliminar
+    // Eliminar con modal de confirmación
     fila.querySelector('.btn-eliminar').addEventListener('click', () => {
-      if(confirm('¿Desea eliminar este animal?')){
-        const idx = animales.indexOf(animal);
-        animales.splice(idx, 1);
-        renderizarAnimales();
-      }
+      abrirModalEliminar(animal);
     });
 
     tbody.appendChild(fila);
@@ -319,6 +373,23 @@ buscador.addEventListener('input', () => {
     a.numArete.toLowerCase().includes(texto)
   );
   renderizarAnimales(resultados);
+});
+
+// Cerrar modal de eliminar con ESC o click fuera
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const modalElim = document.getElementById('modalEliminarAnimal');
+    if (modalElim && modalElim.classList.contains('active')) {
+      cerrarModalEliminar();
+    }
+  }
+});
+
+window.addEventListener('click', (e) => {
+  const modalElim = document.getElementById('modalEliminarAnimal');
+  if (e.target === modalElim) {
+    cerrarModalEliminar();
+  }
 });
 
 // Inicializar tabla

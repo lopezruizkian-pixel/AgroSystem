@@ -18,6 +18,40 @@ const inputAnalisis = document.getElementById('analisis');
 const buscador = document.querySelector('.buscador input');
 
 let editIndex = null;
+let enfermedadAEliminar = null;
+
+// Crear modal de confirmación de eliminación
+const modalEliminar = document.createElement('div');
+modalEliminar.id = 'modalEliminarEnfermedad';
+modalEliminar.classList.add('modal-overlay');
+modalEliminar.innerHTML = `
+  <div class="modal-container">
+    <div class="modal-header-custom">
+      <h2 class="modal-title-custom">
+        <i class="fas fa-trash-alt"></i> Eliminar Enfermedad
+      </h2>
+      <button onclick="cerrarModalEliminar()" class="btn-close-custom">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body-custom">
+      <div class="modal-icon-warning" style="background-color: #f8d7da;">
+        <i class="fas fa-exclamation-triangle" style="color: #721c24;"></i>
+      </div>
+      <p class="modal-message">¿Estás seguro de eliminar esta enfermedad?</p>
+      <p class="modal-submessage" id="mensajeEliminarEnfermedad">Esta acción no se puede deshacer.</p>
+    </div>
+    <div class="modal-footer-custom">
+      <button onclick="cerrarModalEliminar()" class="btn-modal-cancelar">
+        <i class="fas fa-times"></i> Cancelar
+      </button>
+      <button onclick="confirmarEliminarEnfermedad()" class="btn-modal-confirmar">
+        <i class="fas fa-trash-alt"></i> Eliminar
+      </button>
+    </div>
+  </div>
+`;
+document.body.appendChild(modalEliminar);
 
 // Abrir modal
 btnAgregar.addEventListener('click', () => {
@@ -70,6 +104,30 @@ btnGuardar.addEventListener('click', () => {
   renderizarEnfermedades();
 });
 
+// Funciones del modal de eliminar
+function abrirModalEliminar(enfermedad) {
+  enfermedadAEliminar = enfermedad;
+  document.getElementById('mensajeEliminarEnfermedad').textContent = 
+    `Se eliminará la enfermedad "${enfermedad.nombre}" (${enfermedad.tipo}). Esta acción no se puede deshacer.`;
+  document.getElementById('modalEliminarEnfermedad').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModalEliminar() {
+  document.getElementById('modalEliminarEnfermedad').classList.remove('active');
+  document.body.style.overflow = 'auto';
+  enfermedadAEliminar = null;
+}
+
+function confirmarEliminarEnfermedad() {
+  if (enfermedadAEliminar) {
+    const globalIndex = enfermedades.indexOf(enfermedadAEliminar);
+    enfermedades.splice(globalIndex, 1);
+    renderizarEnfermedades();
+    cerrarModalEliminar();
+  }
+}
+
 // Renderizar enfermedades
 function renderizarEnfermedades(lista = enfermedades) {
   tablaEnfermedades.innerHTML = '';
@@ -98,9 +156,9 @@ function renderizarEnfermedades(lista = enfermedades) {
       <td>${enfermedad.nombre}</td>
       <td>${enfermedad.tipo}</td>
       <td>
-        <button class="btn-visualizar">👁️</button>
-        <button class="btn-editar">✏️</button>
-        <button class="btn-eliminar">🗑️</button>
+        <button class="btn-visualizar" title="Ver detalles">👁️</button>
+        <button class="btn-editar" title="Editar">✏️</button>
+        <button class="btn-eliminar" title="Eliminar">🗑️</button>
       </td>
     `;
 
@@ -132,13 +190,9 @@ function renderizarEnfermedades(lista = enfermedades) {
       modal.style.display = 'flex';
     });
 
-    // Eliminar
+    // Eliminar con modal
     fila.querySelector('.btn-eliminar').addEventListener('click', () => {
-      if(confirm('¿Desea eliminar esta enfermedad?')){
-        const globalIndex = enfermedades.indexOf(enfermedad);
-        enfermedades.splice(globalIndex, 1);
-        renderizarEnfermedades();
-      }
+      abrirModalEliminar(enfermedad);
     });
 
     tbody.appendChild(fila);
@@ -155,6 +209,23 @@ buscador.addEventListener('input', () => {
     e.tipo.toLowerCase().includes(texto)
   );
   renderizarEnfermedades(resultados);
+});
+
+// Cerrar modal con ESC o click fuera
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const modalElim = document.getElementById('modalEliminarEnfermedad');
+    if (modalElim && modalElim.classList.contains('active')) {
+      cerrarModalEliminar();
+    }
+  }
+});
+
+window.addEventListener('click', (e) => {
+  const modalElim = document.getElementById('modalEliminarEnfermedad');
+  if (e.target === modalElim) {
+    cerrarModalEliminar();
+  }
 });
 
 // Inicializar
