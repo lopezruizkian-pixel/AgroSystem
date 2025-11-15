@@ -7,7 +7,27 @@
   <link rel="stylesheet" href="../css/medicamento.css">
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .header { background: #4CAF50; color: white; padding: 10px; }
+    .header { 
+      background: #4CAF50; 
+      color: white; 
+      padding: 10px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+    }
+    .header-buttons { display: flex; gap: 10px; }
+    .btn-volver {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn-volver:hover { background-color: #388e3c; }
     .contenedor-principal { display: flex; }
     .sidebar { width: 200px; background: #f1f1f1; padding: 10px; }
     .contenido { flex: 1; padding: 10px; }
@@ -28,6 +48,15 @@
       <img src="../img/logo.png" alt="Logo Agrosystem" style="height:40px;">
       <span class="nombre">AGROSYSTEM</span>
     </div>
+
+    <!-- ⭐ BOTÓN AGREGADO ⭐ -->
+    <div class="header-buttons">
+      <button onclick="volverHome()" class="btn-volver">
+        <i class="fas fa-arrow-left"></i> Volver al Home
+      </button>
+    </div>
+    <!-- ⭐ FIN BOTÓN ⭐ -->
+
   </header>
 
   <div class="contenedor-principal">
@@ -87,6 +116,6 @@
   </div>
 
   <script src="../js/medicamento.js"></script>
-    <script src="../js/navegacion.js"></script>
+  <script src="../js/navegacion.js"></script>
 </body>
 </html>

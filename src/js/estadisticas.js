@@ -1,4 +1,4 @@
-// Cargar todas las enfermedades
+
 const enfermedades = JSON.parse(localStorage.getItem('enfermedades')) || [];
 const indexSeleccionado = localStorage.getItem('enfermedadSeleccionada');
 const titulo = document.getElementById('tituloEstadistica');

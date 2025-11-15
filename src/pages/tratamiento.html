@@ -7,12 +7,33 @@
   <link rel="stylesheet" href="../css/tratamiento.css">
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .header { background: #4CAF50; color: white; padding: 10px; }
+    .header { 
+      background: #4CAF50; 
+      color: white; 
+      padding: 10px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+    }
+    .header-buttons { display: flex; gap: 10px; }
+    .btn-volver {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn-volver:hover { background-color: #388e3c; }
     .contenedor-principal { display: flex; }
     .sidebar { width: 200px; background: #f1f1f1; padding: 10px; }
     .contenido { flex: 1; padding: 10px; }
-    .buscador { margin-bottom: 10px; }
-    table { width: 100%; border-collapse: collapse; }
+    .buscador-agregar { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .buscador input { padding: 5px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
     th { background-color: #f2f2f2; }
     .modal { display: none; position: fixed; top: 0; left:0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
@@ -31,6 +52,13 @@
       <img src="../img/logo.png" alt="Logo Agrosystem" style="height:40px;">
       <span class="nombre">AGROSYSTEM</span>
     </div>
+    <!-- ⭐ BOTÓN AGREGADO ⭐ -->
+    <div class="header-buttons">
+      <button onclick="volverHome()" class="btn-volver">
+        <i class="fas fa-arrow-left"></i> Volver al Home
+      </button>
+    </div>
+    <!-- ⭐ FIN BOTÓN ⭐ -->
   </header>
 
   <div class="contenedor-principal">
@@ -52,8 +80,7 @@
         <button class="btn-agregar">Agregar Tratamiento ➕</button>
       </div>
 
-      <div class="tabla-animales">
-      </div>
+      <div class="tabla-animales"></div>
     </main>
   </div>
 
@@ -129,6 +156,6 @@
   </div>
 
   <script src="../js/tratamiento.js"></script>
-    <script src="../js/navegacion.js"></script>
+  <script src="../js/navegacion.js"></script>
 </body>
 </html>
