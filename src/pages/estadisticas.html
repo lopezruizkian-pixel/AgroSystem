@@ -7,54 +7,40 @@
   <link rel="stylesheet" href="../css/estilos.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <style>
-    .header {
-      background: #4CAF50;
-      color: white;
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .contenido { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
     }
-
-    .header-buttons {
-      display: flex;
-      gap: 10px;
+    
+    #graficoEnfermedad { 
+      max-width: 300px; 
+      max-height: 300px; 
     }
-
-    .btn-volver {
-      background-color: #2e7d32;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+    
+    .contenidoEstadisticas { 
+      text-align: center; 
+      margin-top: 20px; 
     }
-
-    .btn-volver:hover {
-      background-color: #388e3c;
+    
+    .contenidoEstadisticas p { 
+      margin: 5px 0; 
+      font-size: 1rem; 
     }
-
-    .contenido { display: flex; flex-direction: column; align-items: center; }
-    #graficoEnfermedad { max-width: 300px; max-height: 300px; }
-    .contenidoEstadisticas { text-align: center; margin-top: 20px; }
-    .contenidoEstadisticas p { margin: 5px 0; font-size: 1rem; }
   </style>
 </head>
-
 <body>
   <header class="header">
-    <div class="logo" onclick="irHome()">
-      <img src="../img/logo.png" alt="Logo" style="cursor: pointer;">
+    <div class="logo">
+      <img src="../img/logo.png" alt="Logo Agrosystem">
       <span class="nombre">AGROSYSTEM</span>
     </div>
-
-    <button onclick="irHome()">Volver al Home</button>
-
+    <div class="header-buttons">
+      <button onclick="irHome()" class="btn-volver">
+        <i class="fas fa-arrow-left"></i> Volver al Home
+      </button>
+    </div>
   </header>
 
   <div class="dashboard">
@@ -79,7 +65,5 @@
   <script src="../js/estadisticas.js"></script>
   <script src="../js/navegacion.js"></script>
   <script src="../js/i18n.js"></script>
-
-
 </body>
 </html>

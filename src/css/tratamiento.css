@@ -9,6 +9,7 @@ body {
   color: white;
   padding: 10px 20px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -27,6 +28,30 @@ body {
 .nombre {
   font-style: italic;
   font-size: 1.2rem;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-volver {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-volver:hover {
+  background-color: #388e3c;
 }
 
 .contenedor-principal {
@@ -108,4 +133,103 @@ body {
   flex-direction: column;
   gap: 10px;
   margin-top: 20px;
+}
+
+.tabla-animales table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-animales th,
+.tabla-animales td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.tabla-animales th {
+  background-color: #f2f2f2;
+}
+
+.tabla-animales button {
+  margin-right: 5px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 1rem;
+}
+
+/* Modales */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background-color: #fff;
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-contenido h2 {
+  margin-top: 0;
+}
+
+.modal-contenido label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.modal-contenido input,
+.modal-contenido select,
+.modal-contenido textarea {
+  width: 100%;
+  padding: 6px 8px;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.modal-contenido textarea {
+  resize: vertical;
+}
+
+.modal-contenido .botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-contenido .botones button {
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#btnGuardarTratamiento {
+  background-color: rgba(114, 158, 100, 1);
+  color: white;
+}
+
+#btnCerrarModal,
+#btnCerrarVisualizar {
+  background-color: #ccc;
+  color: #333;
 }

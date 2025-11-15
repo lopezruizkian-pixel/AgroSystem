@@ -9,6 +9,7 @@ body {
   color: white;
   padding: 10px 20px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -27,6 +28,30 @@ body {
 .nombre {
   font-style: italic;
   font-size: 1.2rem;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-volver {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-volver:hover {
+  background-color: #388e3c;
 }
 
 .contenedor-principal {
@@ -103,7 +128,7 @@ body {
   cursor: pointer;
 }
 
-.tabla-tarjetas {
+.tabla-animales {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -111,23 +136,23 @@ body {
 }
 
 /* Tabla */
-.tabla-tarjetas table {
+.tabla-animales table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.tabla-tarjetas th,
-.tabla-tarjetas td {
+.tabla-animales th,
+.tabla-animales td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
 
-.tabla-tarjetas th {
+.tabla-animales th {
   background-color: #f2f2f2;
 }
 
-.tabla-tarjetas button {
+.tabla-animales button {
   margin-right: 5px;
   cursor: pointer;
   border: none;
@@ -195,12 +220,16 @@ body {
   font-weight: bold;
 }
 
-#btnGuardar {
+#btnGuardarAnimal,
+#btnGuardar,
+#btnGuardarSecundario {
   background-color: rgba(114, 158, 100, 1);
   color: white;
 }
 
-#btnCerrarModal {
+#btnCerrarModal,
+#btnCerrarVisualizar,
+#btnCerrarSecundario {
   background-color: #ccc;
   color: #333;
 }

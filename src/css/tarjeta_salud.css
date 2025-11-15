@@ -9,6 +9,7 @@ body {
   color: white;
   padding: 10px 20px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -27,6 +28,30 @@ body {
 .nombre {
   font-style: italic;
   font-size: 1.2rem;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-volver {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-volver:hover {
+  background-color: #388e3c;
 }
 
 .contenedor-principal {
@@ -64,76 +89,153 @@ body {
   flex: 1;
   padding: 20px 40px;
 }
-body {
-  background-color: #ffffff;
-  font-family: "Poppins", sans-serif;
-  margin: 0;
-  padding: 0;
-}
 
-.form-container {
-  text-align: center;
-  margin-top: 40px;
-}
-
-h2 {
-  margin-bottom: 30px;
-  font-weight: 600;
-}
-
-.form-card {
+.buscador-agregar {
   display: flex;
-  justify-content: center;
-  gap: 50px;
-  background-color: #f9f9f9;
-  padding: 40px 60px;
-  border-radius: 15px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  width: 70%;
-  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.form-left, .form-right {
+.buscador {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 45%;
+  align-items: center;
+  background-color: #f3f3f3;
+  border-radius: 20px;
+  padding: 5px 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-label {
-  text-align: left;
-  font-style: italic;
-}
-
-input, textarea {
-  border: 1px solid #c9c9c9;
-  border-radius: 8px;
-  padding: 8px 10px;
-  font-size: 14px;
+.buscador input {
+  border: none;
+  background: none;
   outline: none;
-  resize: none;
+  padding: 5px 10px;
 }
 
-textarea {
-  height: 100px;
-}
-
-input:focus, textarea:focus {
-  border-color: #8a73d6;
-  box-shadow: 0 0 5px rgba(138,115,214,0.3);
+.buscador button {
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 .btn-agregar {
-  margin-top: 25px;
-  padding: 10px 25px;
-  background-color: #000000;
-  color: white;
+  background-color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  padding: 8px 15px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
-.btn-agregar:hover {
-  background-color: #3c3c3c;
+.tabla-tarjetas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.tabla-tarjetas table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-tarjetas th,
+.tabla-tarjetas td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.tabla-tarjetas th {
+  background-color: #f2f2f2;
+}
+
+.tabla-tarjetas button {
+  margin-right: 5px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 1rem;
+}
+
+/* Modales */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contenido {
+  background-color: #fff;
+  width: 400px;
+  max-height: 90%;
+  overflow-y: auto;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-contenido h2,
+.modal-contenido h3,
+.modal-contenido h4 {
+  margin-top: 15px;
+}
+
+.modal-contenido h2:first-child {
+  margin-top: 0;
+}
+
+.modal-contenido label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.modal-contenido input,
+.modal-contenido select,
+.modal-contenido textarea {
+  width: 100%;
+  padding: 6px 8px;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.modal-contenido textarea {
+  resize: vertical;
+}
+
+.modal-contenido .botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-contenido .botones button {
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#btnGuardar {
+  background-color: rgba(114, 158, 100, 1);
+  color: white;
+}
+
+#btnCerrarModal,
+#btnCerrarVisualizar {
+  background-color: #ccc;
+  color: #333;
 }
