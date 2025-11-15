@@ -10,7 +10,7 @@ const inputCasos = document.getElementById('numCasos');
 
 let enfermedades = JSON.parse(localStorage.getItem('enfermedades')) || [];
 
-// Mostrar nombre del usuario en el header
+// Mostrar nombre del usuario en el header (centrado y más grande)
 document.addEventListener('DOMContentLoaded', function() {
     const datosUsuario = JSON.parse(localStorage.getItem('datosUsuarioAgroSystem'));
     if (datosUsuario) {
