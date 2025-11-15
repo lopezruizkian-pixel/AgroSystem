@@ -5,13 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgroSystem - Registro</title>
     <link rel="stylesheet" href="../css/registrarse.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .main-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .registro-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+
+        .registro-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .registro-header .logo-title {
+            margin: 0;
+            color: #4CAF50;
+        }
+
+        .registro-form .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .registro-form .input-field {
+            width: 100%;
+            padding: 10px 35px 10px 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .registro-form .input-group .icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #888;
+        }
+
+        .registro-button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .registro-button:hover {
+            background: #45a049;
+        }
+
+        .login-text {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login-text a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <div class="main-wrapper">
         <div class="registro-container">
             <div class="registro-header">
                 <h1 class="logo-title">AGROSYSTEM</h1>
-                
             </div>
 
             <form id="formRegistro" class="registro-form">
@@ -19,59 +100,32 @@
                     <select id="cargo" name="cargo" class="input-field" required>
                         <option value="">Selecciona tu cargo</option>
                         <option value="veterinario">Veterinario</option>
+                        <option value="ganadero">Ganadero</option>
+                        <option value="admin">Administrador</option>
                     </select>
+                    <span class="icon" id="iconCargo"><i class="fa-solid fa-user"></i></span>
                 </div>
 
                 <div class="input-group">
-                    <span class="icon">👤</span>
-                    <input 
-                        type="text" 
-                        id="nombreCompleto" 
-                        name="nombreCompleto" 
-                        placeholder="ingrese su nombre " 
-                        class="input-field input-with-icon"
-                        required
-                    >
+                    <input type="text" id="nombreCompleto" name="nombreCompleto" placeholder="Ingrese su nombre" class="input-field" required>
+                    <span class="icon"><i class="fa-solid fa-user"></i></span>
                 </div>
 
                 <div class="input-group">
-                    <span class="icon">👤</span>
-                    <input 
-                        type="text" 
-                        id="usuario" 
-                        name="usuario" 
-                        placeholder="Ingrese un usuario" 
-                        class="input-field input-with-icon"
-                        required
-                    >
+                    <input type="text" id="usuario" name="usuario" placeholder="Ingrese un usuario" class="input-field" required>
+                    <span class="icon"><i class="fa-solid fa-user-circle"></i></span>
                 </div>
 
                 <div class="input-group">
-                    <span class="icon">🔒</span>
-                    <input 
-                        type="password" 
-                        id="contrasena" 
-                        name="contrasena" 
-                        placeholder="Contraseña" 
-                        class="input-field input-with-icon"
-                        required
-                    >
-                    <span class="toggle-eye" id="togglePassword">👁️</span>
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" class="input-field" required>
+                    <span class="icon" id="togglePassword"><i class="fa-solid fa-eye"></i></span>
                 </div>
 
                 <div class="input-group">
-                    <span class="icon">📞</span>
-                    <input 
-                        type="tel" 
-                        id="telefono" 
-                        name="telefono" 
-                        placeholder="Ingrese su num de telefono" 
-                        class="input-field input-with-icon"
-                        required
-                    >
+                    <input type="tel" id="telefono" name="telefono" placeholder="Ingrese su número de teléfono" class="input-field" required>
+                    <span class="icon"><i class="fa-solid fa-phone"></i></span>
                 </div>
 
-                
                 <button type="submit" class="registro-button">Registrarse</button>
 
                 <p class="login-text">
@@ -82,6 +136,36 @@
         </div>
     </div>
 
-    <script src="../js/registrarse.js"></script>
+    <script>
+        // Cambiar icono según cargo seleccionado
+        const cargoSelect = document.getElementById("cargo");
+        const iconCargo = document.getElementById("iconCargo");
+
+        cargoSelect.addEventListener("change", () => {
+            const value = cargoSelect.value;
+            switch(value){
+                case "veterinario":
+                    iconCargo.innerHTML = '<i class="fa-solid fa-user-doctor"></i>';
+                    break;
+                case "ganadero":
+                    iconCargo.innerHTML = '<i class="fa-solid fa-cow"></i>';
+                    break;
+                case "admin":
+                    iconCargo.innerHTML = '<i class="fa-solid fa-user-shield"></i>';
+                    break;
+                default:
+                    iconCargo.innerHTML = '<i class="fa-solid fa-user"></i>';
+            }
+        });
+
+        // Mostrar/ocultar contraseña
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordField = document.getElementById("contrasena");
+        togglePassword.addEventListener("click", () => {
+            const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+            passwordField.setAttribute("type", type);
+            togglePassword.innerHTML = type === "password" ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
+        });
+    </script>
 </body>
 </html>
