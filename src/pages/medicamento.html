@@ -15,7 +15,7 @@
     </div>
     <div class="header-buttons">
       <button onclick="irHome()" class="btn-volver">
-        <i class="fas fa-arrow-left"></i> Volver al Inicio
+        <i class="fas fa-arrow-left"></i> Volver al Home
       </button>
     </div>
   </header>
@@ -43,6 +43,7 @@
     </main>
   </div>
 
+  <!-- Modal para Agregar/Editar -->
   <div id="modalMedicamento" class="modal">
     <div class="modal-contenido">
       <h2>Agregar Medicamento</h2>
@@ -71,6 +72,17 @@
       <div class="botones">
         <button id="btnGuardarMedicamento">Guardar</button>
         <button id="btnCerrarModal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para Visualizar -->
+  <div id="modalVisualizarMedicamento" class="modal">
+    <div class="modal-contenido">
+      <h2>Detalle del Medicamento</h2>
+      <div id="contenidoMedicamento"></div>
+      <div class="botones">
+        <button id="btnCerrarVisualizar">Cerrar</button>
       </div>
     </div>
   </div>
