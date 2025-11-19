@@ -263,16 +263,6 @@ function confirmarEliminarMedicamento() {
   }
 }
 
-// Event listeners para botones del modal de eliminar
-// Los agregamos INMEDIATAMENTE después de crear el modal
-const btnCerrarEliminar = document.getElementById('btnCerrarModalEliminar');
-const btnCancelarEliminar = document.getElementById('btnCancelarEliminar');
-const btnConfirmarEliminar = document.getElementById('btnConfirmarEliminar');
-
-if (btnCerrarEliminar) btnCerrarEliminar.addEventListener('click', cerrarModalEliminar);
-if (btnCancelarEliminar) btnCancelarEliminar.addEventListener('click', cerrarModalEliminar);
-if (btnConfirmarEliminar) btnConfirmarEliminar.addEventListener('click', confirmarEliminarMedicamento);
-
 // ===================================
 // FUNCIONES PRINCIPALES
 // ===================================
@@ -443,6 +433,15 @@ window.addEventListener('click', (e) => {
   }
 });
 
+
+// Cerrar modal de eliminar con ESC o click fuera
+window.addEventListener('click', (e) => {
+  const modalElim = document.getElementById('modalEliminarMedicamento');
+  if (e.target === modalElim) {
+    cerrarModalEliminar();
+  }
+});
+
 // Cerrar modal de eliminar con tecla ESC
 document.addEventListener('keydown', (e) => {
   const modalElim = document.getElementById('modalEliminarMedicamento');
@@ -451,5 +450,17 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// Event listeners para botones del modal de eliminar
+// Los agregamos INMEDIATAMENTE después de crear el modal
+const btnCerrarEliminar = document.getElementById('btnCerrarModalEliminar');
+const btnCancelarEliminar = document.getElementById('btnCancelarEliminar');
+const btnConfirmarEliminar = document.getElementById('btnConfirmarEliminar');
+
+if (btnCerrarEliminar) btnCerrarEliminar.addEventListener('click', cerrarModalEliminar);
+if (btnCancelarEliminar) btnCancelarEliminar.addEventListener('click', cerrarModalEliminar);
+if (btnConfirmarEliminar) btnConfirmarEliminar.addEventListener('click', confirmarEliminarMedicamento);
+
 // Inicializar
-renderizarMedicamentos();
+renderizarMedicamentos();;
+
+

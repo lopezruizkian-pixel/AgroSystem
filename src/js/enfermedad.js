@@ -1,3 +1,82 @@
+// ===========================
+// SISTEMA DE ALERTAS PERSONALIZADAS
+// ===========================
+
+// Crear modal de alerta al cargar
+const modalAlerta = document.createElement('div');
+modalAlerta.classList.add('alerta-overlay');
+modalAlerta.innerHTML = `
+  <div class="alerta-container">
+    <div class="alerta-header" id="alertaHeader">
+      <i class="fas fa-info-circle alerta-icon" id="alertaIcon"></i>
+      <h3 class="alerta-title" id="alertaTitle">Alerta</h3>
+    </div>
+    <div class="alerta-body">
+      <p class="alerta-message" id="alertaMessage"></p>
+    </div>
+    <div class="alerta-footer">
+      <button class="btn-alerta-ok" id="btnAlertaOk">Aceptar</button>
+    </div>
+  </div>
+`;
+document.body.appendChild(modalAlerta);
+
+const alertaHeader = document.getElementById('alertaHeader');
+const alertaIcon = document.getElementById('alertaIcon');
+const alertaTitle = document.getElementById('alertaTitle');
+const alertaMessage = document.getElementById('alertaMessage');
+const btnAlertaOk = document.getElementById('btnAlertaOk');
+
+function mostrarAlerta(mensaje, tipo = 'info') {
+  // Configurar según el tipo de alerta
+  alertaHeader.className = 'alerta-header ' + tipo;
+  
+  const config = {
+    error: {
+      icon: 'fa-exclamation-circle',
+      title: 'Error'
+    },
+    success: {
+      icon: 'fa-check-circle',
+      title: 'Éxito'
+    },
+    warning: {
+      icon: 'fa-exclamation-triangle',
+      title: 'Advertencia'
+    },
+    info: {
+      icon: 'fa-info-circle',
+      title: 'Información'
+    }
+  };
+
+  const tipoConfig = config[tipo] || config.info;
+  alertaIcon.className = `fas ${tipoConfig.icon} alerta-icon`;
+  alertaTitle.textContent = tipoConfig.title;
+  alertaMessage.textContent = mensaje;
+  
+  modalAlerta.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarAlerta() {
+  modalAlerta.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+btnAlertaOk.addEventListener('click', cerrarAlerta);
+
+// Cerrar alerta con ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalAlerta.classList.contains('active')) {
+    cerrarAlerta();
+  }
+});
+
+// ===========================
+// CÓDIGO ORIGINAL CON ALERTAS PERSONALIZADAS
+// ===========================
+
 // Arreglo para almacenar enfermedades
 let enfermedades = [];
 
@@ -7,7 +86,6 @@ const btnGuardar = document.getElementById('btnGuardarEnfermedad');
 const btnCerrarModal = document.getElementById('btnCerrarModal');
 const btnAgregar = document.querySelector('.btn-agregar');
 const tablaEnfermedades = document.querySelector('.tabla-animales');
-
 const inputNombre = document.getElementById('nombre');
 const inputTipo = document.getElementById('tipo');
 const inputSintomas = document.getElementById('sintomas');
@@ -16,7 +94,6 @@ const inputTratamientos = document.getElementById('tratamientos');
 const selectRiesgo = document.getElementById('riesgo');
 const inputTransmision = document.getElementById('transmision');
 const inputAnalisis = document.getElementById('analisis');
-
 const buscador = document.querySelector('.buscador input');
 
 // Modal de visualizar
@@ -26,7 +103,6 @@ const btnCerrarVisualizar = document.getElementById('btnCerrarVisualizar');
 
 // Modal de eliminar
 let enfermedadAEliminar = null;
-
 const modalEliminar = document.createElement('div');
 modalEliminar.id = 'modalEliminarEnfermedad';
 modalEliminar.classList.add('modal-overlay');
@@ -73,11 +149,15 @@ btnAgregar.addEventListener('click', () => {
 
 // Cerrar modal agregar/editar
 btnCerrarModal.addEventListener('click', () => modal.style.display = 'none');
-window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+window.addEventListener('click', (e) => { 
+  if (e.target === modal) modal.style.display = 'none'; 
+});
 
 // Cerrar modal visualizar
 btnCerrarVisualizar.addEventListener('click', () => modalVisualizar.style.display = 'none');
-window.addEventListener('click', (e) => { if (e.target === modalVisualizar) modalVisualizar.style.display = 'none'; });
+window.addEventListener('click', (e) => { 
+  if (e.target === modalVisualizar) modalVisualizar.style.display = 'none'; 
+});
 
 // -------------------------
 // LIMPIAR MODAL
@@ -111,9 +191,10 @@ function getBadgeClass(riesgo) {
 btnGuardar.addEventListener('click', () => {
   const nombre = inputNombre.value.trim();
   const tipo = inputTipo.value.trim();
-
+  
+  // VALIDACIÓN CON ALERTA PERSONALIZADA
   if (!nombre || !tipo) {
-    alert('Debe llenar al menos Nombre y Tipo.');
+    mostrarAlerta('Por favor complete todos los campos obligatorios: Nombre y Tipo de la enfermedad.', 'error');
     return;
   }
 
@@ -130,8 +211,10 @@ btnGuardar.addEventListener('click', () => {
 
   if (editIndex !== null) {
     enfermedades[editIndex] = enfermedadData;
+    mostrarAlerta(`La enfermedad "${enfermedadData.nombre}" ha sido actualizada exitosamente.`, 'success');
   } else {
     enfermedades.push(enfermedadData);
+    mostrarAlerta(`La enfermedad "${enfermedadData.nombre}" ha sido registrada exitosamente.`, 'success');
   }
 
   modal.style.display = 'none';
@@ -143,10 +226,8 @@ btnGuardar.addEventListener('click', () => {
 // -------------------------
 function abrirModalEliminar(enfermedad) {
   enfermedadAEliminar = enfermedad;
-
   document.getElementById('mensajeEliminarEnfermedad').textContent =
     `Se eliminará la enfermedad "${enfermedad.nombre}".`;
-
   document.getElementById('modalEliminarEnfermedad').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
@@ -159,11 +240,15 @@ function cerrarModalEliminar() {
 
 function confirmarEliminarEnfermedad() {
   if (enfermedadAEliminar) {
+    const nombreEnfermedad = enfermedadAEliminar.nombre;
     const idx = enfermedades.indexOf(enfermedadAEliminar);
     enfermedades.splice(idx, 1);
     renderizarEnfermedades();
+    cerrarModalEliminar();
+    
+    // Mostrar alerta de éxito
+    mostrarAlerta(`La enfermedad "${nombreEnfermedad}" ha sido eliminada exitosamente.`, 'success');
   }
-  cerrarModalEliminar();
 }
 
 // -------------------------
@@ -171,7 +256,7 @@ function confirmarEliminarEnfermedad() {
 // -------------------------
 function renderizarEnfermedades(lista = enfermedades) {
   tablaEnfermedades.innerHTML = '';
-
+  
   if (lista.length === 0) {
     tablaEnfermedades.innerHTML = '<p>No hay enfermedades registradas.</p>';
     return;
@@ -189,8 +274,8 @@ function renderizarEnfermedades(lista = enfermedades) {
     </thead>
     <tbody></tbody>
   `;
-  const tbody = tabla.querySelector('tbody');
 
+  const tbody = tabla.querySelector('tbody');
   lista.forEach(enfermedad => {
     const fila = document.createElement('tr');
     fila.innerHTML = `
@@ -229,9 +314,7 @@ function renderizarEnfermedades(lista = enfermedades) {
       selectRiesgo.value = enfermedad.riesgo;
       inputTransmision.value = enfermedad.transmision;
       inputAnalisis.value = enfermedad.analisis;
-
       editIndex = enfermedades.indexOf(enfermedad);
-
       modal.style.display = 'flex';
     });
 
