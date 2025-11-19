@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="icon" type="image/png" href="../img/logo.png">
+  <link rel="icon" type="image/png" href="../img/logo.png">
   <title>Reporte Médico - Agrosystem</title>
   <link rel="stylesheet" href="../css/reporte_medico.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -44,6 +44,7 @@
     </main>
   </div>
 
+  <!-- Modal visualizar -->
   <div id="modalVisualizarReporte" class="modal">
     <div class="modal-contenido" style="width: 500px;">
       <h2>Detalle del Reporte Médico</h2>
@@ -54,6 +55,7 @@
     </div>
   </div>
 
+  <!-- Modal agregar -->
   <div id="modalAgregarReporte" class="modal">
     <div class="modal-contenido">
       <h2>Agregar Reporte Médico</h2>
@@ -67,17 +69,29 @@
       <label>Veterinario:</label>
       <input type="text" id="veterinario" placeholder="Nombre del veterinario">
 
-      <label>Diagnóstico:</label>
-      <input type="text" id="diagnostico" placeholder="Diagnóstico principal">
+      <label>Temperatura:</label>
+      <input type="text" id="temperatura">
+
+      <label>Condición corporal:</label>
+      <input type="text" id="condicionCorporal">
+
+      <label>Frecuencia respiratoria:</label>
+      <input type="text" id="frecuenciaRespiratoria">
+
+      <label>Diagnóstico presuntivo:</label>
+      <input type="text" id="diagnosticoPresuntivo">
+
+      <label>Diagnóstico definitivo:</label>
+      <input type="text" id="diagnosticoDefinitivo">
 
       <label>Síntomas Observados:</label>
-      <textarea id="sintomas" rows="3" placeholder="Descripción de síntomas"></textarea>
+      <textarea id="sintomas" rows="3"></textarea>
 
       <label>Tratamiento Aplicado:</label>
-      <textarea id="tratamiento" rows="3" placeholder="Descripción del tratamiento"></textarea>
+      <textarea id="tratamiento" rows="3"></textarea>
 
       <label>Medicamentos:</label>
-      <input type="text" id="medicamentos" placeholder="Lista de medicamentos">
+      <input type="text" id="medicamentos">
 
       <label>Estado del Animal:</label>
       <select id="estado">
@@ -88,7 +102,7 @@
       </select>
 
       <label>Observaciones:</label>
-      <textarea id="observaciones" rows="3" placeholder="Notas adicionales"></textarea>
+      <textarea id="observaciones" rows="3"></textarea>
 
       <div class="botones">
         <button id="btnGuardarReporte">Guardar</button>
@@ -99,10 +113,5 @@
 
   <script src="../js/reporte_medico.js"></script>
   <script src="../js/navegacion.js"></script>
-  <script src="../js/i18n.js"></script>
-  
- 
-</script>
-
 </body>
 </html>
