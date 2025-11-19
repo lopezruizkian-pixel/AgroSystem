@@ -291,3 +291,261 @@ body {
   background-color: #721c24;
   color: #fff;
 }
+
+
+/* Modal de eliminar personalizado */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-container {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
+  position: relative;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header-custom {
+  background-color: rgba(114, 158, 100, 1);
+  color: white;
+  padding: 20px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title-custom {
+  margin: 0;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-close-custom {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.btn-close-custom:hover {
+  transform: scale(1.2);
+}
+
+.modal-body-custom {
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.modal-icon-warning {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-icon-warning i {
+  font-size: 3rem;
+}
+
+.modal-message {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.modal-submessage {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.modal-footer-custom {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.btn-modal-cancelar,
+.btn-modal-confirmar {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-modal-cancelar {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-modal-cancelar:hover {
+  background-color: #5a6268;
+}
+
+.btn-modal-confirmar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-modal-confirmar:hover {
+  background-color: #c82333;
+}
+
+
+/* Sistema de alertas personalizadas */
+.alerta-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10001;
+}
+
+.alerta-overlay.active {
+  display: flex;
+}
+
+.alerta-container {
+  background: white;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: alertaSlideIn 0.3s ease;
+}
+
+@keyframes alertaSlideIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.alerta-header {
+  padding: 20px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: white;
+}
+
+.alerta-header.error {
+  background-color: #dc3545;
+}
+
+.alerta-header.success {
+  background-color: #28a745;
+}
+
+.alerta-header.warning {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.alerta-header.info {
+  background-color: #17a2b8;
+}
+
+.alerta-icon {
+  font-size: 2rem;
+}
+
+.alerta-title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.alerta-body {
+  padding: 25px;
+  text-align: center;
+}
+
+.alerta-message {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.alerta-footer {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #e0e0e0;
+}
+
+.btn-alerta-ok {
+  padding: 10px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  background-color: rgba(114, 158, 100, 1);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-alerta-ok:hover {
+  background-color: rgba(94, 138, 80, 1);
+  transform: translateY(-2px);
+}

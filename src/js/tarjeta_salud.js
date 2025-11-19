@@ -1,3 +1,98 @@
+// ============================================
+// SISTEMA DE ALERTAS PERSONALIZADAS
+// ============================================
+
+// Crear el modal de alerta si no existe
+function crearModalAlerta() {
+  if (document.getElementById('alertaPersonalizada')) return;
+  
+  const alertaModal = document.createElement('div');
+  alertaModal.id = 'alertaPersonalizada';
+  alertaModal.classList.add('alerta-overlay');
+  alertaModal.innerHTML = `
+    <div class="alerta-container">
+      <div class="alerta-header" id="alertaHeader">
+        <i class="fas fa-info-circle alerta-icon" id="alertaIcon"></i>
+        <h3 class="alerta-title" id="alertaTitle">Alerta</h3>
+      </div>
+      <div class="alerta-body">
+        <p class="alerta-message" id="alertaMessage"></p>
+      </div>
+      <div class="alerta-footer">
+        <button class="btn-alerta-ok" id="btnAlertaOk">
+          <i class="fas fa-check"></i> Aceptar
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(alertaModal);
+  
+  // Evento para cerrar
+  document.getElementById('btnAlertaOk').addEventListener('click', cerrarAlerta);
+  
+  // Cerrar con ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && alertaModal.classList.contains('active')) {
+      cerrarAlerta();
+    }
+  });
+}
+
+// Mostrar alerta personalizada
+function mostrarAlerta(mensaje, tipo = 'error') {
+  crearModalAlerta();
+  
+  const alertaModal = document.getElementById('alertaPersonalizada');
+  const header = document.getElementById('alertaHeader');
+  const icon = document.getElementById('alertaIcon');
+  const title = document.getElementById('alertaTitle');
+  const message = document.getElementById('alertaMessage');
+  
+  // Limpiar clases previas
+  header.classList.remove('error', 'success', 'warning', 'info');
+  
+  // Configurar según el tipo
+  switch(tipo) {
+    case 'error':
+      header.classList.add('error');
+      icon.className = 'fas fa-exclamation-circle alerta-icon';
+      title.textContent = 'Error';
+      break;
+    case 'success':
+      header.classList.add('success');
+      icon.className = 'fas fa-check-circle alerta-icon';
+      title.textContent = 'Éxito';
+      break;
+    case 'warning':
+      header.classList.add('warning');
+      icon.className = 'fa-exclamation-circle';
+      title.textContent = 'Error';
+      break;
+    case 'info':
+      header.classList.add('info');
+      icon.className = 'fas fa-info-circle alerta-icon';
+      title.textContent = 'Información';
+      break;
+  }
+  
+  message.textContent = mensaje;
+  alertaModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+// Cerrar alerta
+function cerrarAlerta() {
+  const alertaModal = document.getElementById('alertaPersonalizada');
+  if (alertaModal) {
+    alertaModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// ============================================
+// CÓDIGO PRINCIPAL (MODIFICADO)
+// ============================================
+
 let tarjetas = [];
 
 const btnAgregar = document.querySelector('.btn-agregar');
@@ -99,7 +194,7 @@ function limpiarModal(){
   inputHEstado.value='';
 }
 
-// Guardar / Editar
+// Guardar / Editar - MODIFICADO PARA USAR ALERTA PERSONALIZADA
 btnGuardar.addEventListener('click', ()=>{
   const animal = {
     nombre: inputNombre.value.trim(),
@@ -119,12 +214,19 @@ btnGuardar.addEventListener('click', ()=>{
       estado: inputHEstado.value.trim()
     }
   };
-  if(!animal.nombre || !animal.numArete){ alert('Nombre y Arete obligatorios'); return; }
+  
+  // REEMPLAZAR alert() CON mostrarAlerta()
+  if(!animal.nombre || !animal.numArete){ 
+    mostrarAlerta('El nombre y el número de arete son obligatorios', 'warning');
+    return; 
+  }
 
   if(editIndex!==null){
     tarjetas[editIndex]=animal;
+    mostrarAlerta('Animal actualizado correctamente', 'success');
   }else{
     tarjetas.push(animal);
+    mostrarAlerta('Animal agregado correctamente', 'success');
   }
 
   modal.style.display='none';
@@ -152,6 +254,7 @@ function confirmarEliminarTarjeta() {
     tarjetas.splice(idx, 1);
     renderizarTabla();
     cerrarModalEliminar();
+    mostrarAlerta('Animal eliminado correctamente', 'success');
   }
 }
 

@@ -30,7 +30,75 @@ const btnCerrarVisualizar = document.getElementById('btnCerrarVisualizar');
 let editIndex = null;
 let tratamientoAEliminar = null;
 
-// Crear modal de confirmación de eliminación
+// ========== SISTEMA DE ALERTAS PERSONALIZADAS ==========
+function mostrarAlerta(mensaje, tipo = 'info') {
+  // Crear overlay si no existe
+  let alertaOverlay = document.getElementById('alertaOverlay');
+  if (!alertaOverlay) {
+    alertaOverlay = document.createElement('div');
+    alertaOverlay.id = 'alertaOverlay';
+    alertaOverlay.className = 'alerta-overlay';
+    document.body.appendChild(alertaOverlay);
+  }
+
+  // Configurar iconos y títulos según el tipo
+  const configuracion = {
+    error: { icono: 'fa-exclamation-circle', titulo: 'Error', color: '#dc3545' },
+    success: { icono: 'fa-check-circle', titulo: 'Éxito', color: '#28a745' },
+    warning: { icono: 'fa-exclamation-circle', titulo: 'Error', color: '#ffc107' },
+    info: { icono: 'fa-info-circle', titulo: 'Información', color: '#17a2b8' }
+  };
+
+  const config = configuracion[tipo] || configuracion.info;
+
+  // Crear contenido de la alerta
+  alertaOverlay.innerHTML = `
+    <div class="alerta-container">
+      <div class="alerta-header ${tipo}">
+        <i class="fas ${config.icono} alerta-icon"></i>
+        <h3 class="alerta-title">${config.titulo}</h3>
+      </div>
+      <div class="alerta-body">
+        <p class="alerta-message">${mensaje}</p>
+      </div>
+      <div class="alerta-footer">
+        <button class="btn-alerta-ok" onclick="cerrarAlerta()">
+          <i class="fas fa-check"></i> Aceptar
+        </button>
+      </div>
+    </div>
+  `;
+
+  // Mostrar alerta
+  alertaOverlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Cerrar con ESC
+  const cerrarConEsc = (e) => {
+    if (e.key === 'Escape') {
+      cerrarAlerta();
+      document.removeEventListener('keydown', cerrarConEsc);
+    }
+  };
+  document.addEventListener('keydown', cerrarConEsc);
+
+  // Cerrar al hacer clic fuera
+  alertaOverlay.onclick = (e) => {
+    if (e.target === alertaOverlay) {
+      cerrarAlerta();
+    }
+  };
+}
+
+function cerrarAlerta() {
+  const alertaOverlay = document.getElementById('alertaOverlay');
+  if (alertaOverlay) {
+    alertaOverlay.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// ========== MODAL DE CONFIRMACIÓN DE ELIMINACIÓN ==========
 const modalEliminar = document.createElement('div');
 modalEliminar.id = 'modalEliminarTratamiento';
 modalEliminar.classList.add('modal-overlay');
@@ -115,8 +183,18 @@ btnGuardar.addEventListener('click', () => {
   const estado = selectEstado.value;
   const observaciones = inputObservaciones.value.trim();
 
-  if (!numArete || !nombreTratamiento || !fechaInicio || !enfermedad) {
-    alert('Por favor complete los campos obligatorios: Animal, Nombre del Tratamiento, Fecha de Inicio y Enfermedad.');
+  // Validación con alerta personalizada
+  const camposFaltantes = [];
+  if (!numArete) camposFaltantes.push('Animal (Num. Arete)');
+  if (!nombreTratamiento) camposFaltantes.push('Nombre del Tratamiento');
+  if (!fechaInicio) camposFaltantes.push('Fecha de Inicio');
+  if (!enfermedad) camposFaltantes.push('Enfermedad/Condición');
+
+  if (camposFaltantes.length > 0) {
+    const mensaje = camposFaltantes.length === 1 
+      ? `Por favor complete el campo obligatorio: ${camposFaltantes[0]}.`
+      : `Por favor complete los siguientes campos obligatorios: ${camposFaltantes.join(', ')}.`;
+    mostrarAlerta(mensaje, 'warning');
     return;
   }
 
@@ -138,8 +216,10 @@ btnGuardar.addEventListener('click', () => {
 
   if (editIndex !== null) {
     tratamientos[editIndex] = tratamientoData;
+    mostrarAlerta('Tratamiento actualizado correctamente.', 'success');
   } else {
     tratamientos.push(tratamientoData);
+    mostrarAlerta('Tratamiento agregado correctamente.', 'success');
   }
 
   modal.style.display = 'none';
@@ -167,6 +247,7 @@ function confirmarEliminarTratamiento() {
     tratamientos.splice(globalIndex, 1);
     renderizarTratamientos();
     cerrarModalEliminar();
+    mostrarAlerta('Tratamiento eliminado correctamente.', 'success');
   }
 }
 

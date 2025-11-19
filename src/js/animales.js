@@ -31,14 +31,190 @@ if (!modalVisualizar) {
   `;
   document.body.appendChild(modalVisualizar);
 }
-
 const contenidoAnimal = document.getElementById('contenidoAnimal');
 const btnCerrarVisualizar = document.getElementById('btnCerrarVisualizar');
 
 let editIndex = null;
 let animalAEliminar = null;
 
-// Modal adicional según Rebaño
+// ===================================
+// SISTEMA DE ALERTAS PERSONALIZADAS
+// ===================================
+
+// Agregar estilos CSS si no existen
+if (!document.getElementById('estilos-alertas')) {
+  const estilosAlerta = document.createElement('style');
+  estilosAlerta.id = 'estilos-alertas';
+  estilosAlerta.textContent = `
+    .alerta-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10001;
+    }
+    .alerta-overlay.active {
+      display: flex !important;
+    }
+    .alerta-container {
+      background: white;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      animation: alertaSlideIn 0.3s ease;
+    }
+    @keyframes alertaSlideIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    .alerta-header {
+      padding: 20px;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: white;
+    }
+    .alerta-header.error {
+      background-color: #dc3545;
+    }
+    .alerta-header.success {
+      background-color: #28a745;
+    }
+    .alerta-header.warning {
+      background-color: #ffc107;
+      color: #333;
+    }
+    .alerta-header.info {
+      background-color: #17a2b8;
+    }
+    .alerta-icon {
+      font-size: 2rem;
+    }
+    .alerta-title {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .alerta-body {
+      padding: 25px;
+      text-align: center;
+    }
+    .alerta-message {
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.6;
+    }
+    .alerta-footer {
+      padding: 15px 20px;
+      display: flex;
+      justify-content: center;
+      border-top: 1px solid #e0e0e0;
+    }
+    .btn-alerta-ok {
+      padding: 10px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.95rem;
+      background-color: rgba(114, 158, 100, 1);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    .btn-alerta-ok:hover {
+      background-color: rgba(94, 138, 80, 1);
+      transform: translateY(-2px);
+    }
+  `;
+  document.head.appendChild(estilosAlerta);
+}
+
+const modalAlerta = document.createElement('div');
+modalAlerta.classList.add('alerta-overlay');
+modalAlerta.innerHTML = `
+  <div class="alerta-container">
+    <div class="alerta-header" id="alertaHeader">
+      <i class="fas fa-info-circle alerta-icon" id="alertaIcon"></i>
+      <h3 class="alerta-title" id="alertaTitle">Alerta</h3>
+    </div>
+    <div class="alerta-body">
+      <p class="alerta-message" id="alertaMessage"></p>
+    </div>
+    <div class="alerta-footer">
+      <button class="btn-alerta-ok" id="btnAlertaOk">Aceptar</button>
+    </div>
+  </div>
+`;
+document.body.appendChild(modalAlerta);
+
+const alertaHeader = document.getElementById('alertaHeader');
+const alertaIcon = document.getElementById('alertaIcon');
+const alertaTitle = document.getElementById('alertaTitle');
+const alertaMessage = document.getElementById('alertaMessage');
+const btnAlertaOk = document.getElementById('btnAlertaOk');
+
+function mostrarAlerta(mensaje, tipo = 'info') {
+  // Configurar según el tipo de alerta
+  alertaHeader.className = 'alerta-header ' + tipo;
+  
+  const config = {
+    error: {
+      icon: 'fa-exclamation-circle',
+      title: 'Error'
+    },
+    success: {
+      icon: 'fa-check-circle',
+      title: 'Éxito'
+    },
+    warning: {
+      icon: 'fa-exclamation-triangle',
+      title: 'Advertencia'
+    },
+    info: {
+      icon: 'fa-info-circle',
+      title: 'Información'
+    }
+  };
+
+  const tipoConfig = config[tipo] || config.info;
+  alertaIcon.className = `fas ${tipoConfig.icon} alerta-icon`;
+  alertaTitle.textContent = tipoConfig.title;
+  alertaMessage.textContent = mensaje;
+  
+  modalAlerta.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarAlerta() {
+  modalAlerta.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+btnAlertaOk.addEventListener('click', cerrarAlerta);
+
+// Cerrar alerta con ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modalAlerta.classList.contains('active')) {
+    cerrarAlerta();
+  }
+});
+
+// ===================================
+// MODAL ADICIONAL SEGÚN REBAÑO
+// ===================================
 let modalSecundario = document.createElement('div');
 modalSecundario.classList.add('modal');
 modalSecundario.id = 'modalSecundario';
@@ -60,7 +236,9 @@ const btnCerrarSecundario = document.getElementById('btnCerrarSecundario');
 
 let animalTemp = {}; // Guardar temporalmente los datos del primer modal
 
-// Crear modal de confirmación de eliminación
+// ===================================
+// MODAL DE ELIMINAR
+// ===================================
 const modalEliminar = document.createElement('div');
 modalEliminar.id = 'modalEliminarAnimal';
 modalEliminar.classList.add('modal-overlay');
@@ -92,6 +270,10 @@ modalEliminar.innerHTML = `
   </div>
 `;
 document.body.appendChild(modalEliminar);
+
+// ===================================
+// FUNCIONES DE MODALES
+// ===================================
 
 // Abrir modal principal
 btnAgregar.addEventListener('click', () => {
@@ -127,7 +309,9 @@ function limpiarModal() {
   editIndex = null;
 }
 
-// Guardar animal (primer modal)
+// ===================================
+// GUARDAR ANIMAL (PRIMER MODAL)
+// ===================================
 btnGuardar.addEventListener('click', () => {
   const nombre = inputNombre.value.trim();
   const numArete = inputNumArete.value.trim();
@@ -136,7 +320,7 @@ btnGuardar.addEventListener('click', () => {
   const sexo = selectSexo.value;
 
   if (!nombre || !numArete || !sexo) {
-    alert('Por favor complete todos los campos.');
+    mostrarAlerta('Por favor complete todos los campos obligatorios: Nombre, Número de Arete y Sexo.', 'error');
     return;
   }
 
@@ -147,10 +331,11 @@ btnGuardar.addEventListener('click', () => {
   modal.style.display = 'none';
 });
 
-// Función para abrir modal secundario según Rebaño
+// ===================================
+// MODAL SECUNDARIO SEGÚN REBAÑO
+// ===================================
 function abrirModalSecundario(rebano) {
   camposSecundarios.innerHTML = '';
-
   camposSecundarios.innerHTML += `
     <label>Fecha de nacimiento:</label><input type="date" id="fechaNacimiento">
     <label>Edad:</label><input type="number" id="edad">
@@ -179,7 +364,9 @@ function abrirModalSecundario(rebano) {
   modalSecundario.style.display = 'flex';
 }
 
-// Guardar modal secundario
+// ===================================
+// GUARDAR MODAL SECUNDARIO
+// ===================================
 btnGuardarSecundario.addEventListener('click', () => {
   // Obtener valores
   const fechaNacimiento = document.getElementById('fechaNacimiento').value;
@@ -210,19 +397,23 @@ btnGuardarSecundario.addEventListener('click', () => {
 
   if(editIndex !== null){
     animales[editIndex] = animalTemp;
+    mostrarAlerta(`El animal "${animalTemp.nombre}" ha sido actualizado exitosamente.`, 'success');
   } else {
     animales.push(animalTemp);
+    mostrarAlerta(`El animal "${animalTemp.nombre}" ha sido registrado exitosamente.`, 'success');
   }
 
   modalSecundario.style.display = 'none';
   renderizarAnimales();
 });
 
-// Funciones del modal de eliminar
+// ===================================
+// FUNCIONES DEL MODAL DE ELIMINAR
+// ===================================
 function abrirModalEliminar(animal) {
   animalAEliminar = animal;
   document.getElementById('mensajeEliminarAnimal').textContent = 
-    `Se eliminará el animal "${animal.nombre}" (Arete: ${animal.numArete}). Esta acción no se puede deshacer.`;
+    `Se eliminará el animal "${animal.nombre}" (Arete: ${animal.numArete}).`;
   document.getElementById('modalEliminarAnimal').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
@@ -235,14 +426,21 @@ function cerrarModalEliminar() {
 
 function confirmarEliminarAnimal() {
   if (animalAEliminar) {
+    const nombreAnimal = animalAEliminar.nombre;
+    const numArete = animalAEliminar.numArete;
     const idx = animales.indexOf(animalAEliminar);
     animales.splice(idx, 1);
     renderizarAnimales();
     cerrarModalEliminar();
+    
+    // Mostrar alerta de éxito
+    mostrarAlerta(`El animal "${nombreAnimal}" (Arete: ${numArete}) ha sido eliminado exitosamente.`, 'success');
   }
 }
 
-// Renderizar animales
+// ===================================
+// RENDERIZAR ANIMALES
+// ===================================
 function renderizarAnimales(lista = animales){
   tablaAnimales.innerHTML = '';
 
@@ -278,7 +476,7 @@ function renderizarAnimales(lista = animales){
       </td>
     `;
 
-    // Visualizar
+    // VISUALIZAR
     fila.querySelector('.btn-ver').addEventListener('click', () => {
       let html = `
         <p><strong>Nombre:</strong> ${animal.nombre}</p>
@@ -290,12 +488,10 @@ function renderizarAnimales(lista = animales){
         <p><strong>Edad:</strong> ${animal.edad}</p>
         <p><strong>Peso:</strong> ${animal.peso}</p>
         <p><strong>Características:</strong> ${animal.caracteristicas}</p>
-
         <div><strong>Padre:</strong>
           <p>Nombre: ${animal.padreNombre}</p>
           <p>Número de Arete: ${animal.padreArete}</p>
         </div>
-
         <div><strong>Madre:</strong>
           <p>Nombre: ${animal.madreNombre}</p>
           <p>Número de Arete: ${animal.madreArete}</p>
@@ -318,7 +514,7 @@ function renderizarAnimales(lista = animales){
       modalVisualizar.style.display = 'flex';
     });
 
-    // Editar
+    // EDITAR
     fila.querySelector('.btn-editar').addEventListener('click', () => {
       inputNombre.value = animal.nombre;
       inputNumArete.value = animal.numArete;
@@ -354,7 +550,7 @@ function renderizarAnimales(lista = animales){
       modalSecundario.style.display = 'flex';
     });
 
-    // Eliminar con modal de confirmación
+    // ELIMINAR
     fila.querySelector('.btn-eliminar').addEventListener('click', () => {
       abrirModalEliminar(animal);
     });
@@ -365,7 +561,9 @@ function renderizarAnimales(lista = animales){
   tablaAnimales.appendChild(tabla);
 }
 
-// Buscar animales
+// ===================================
+// BUSCAR ANIMALES
+// ===================================
 buscador.addEventListener('input', () => {
   const texto = buscador.value.toLowerCase();
   const resultados = animales.filter(a =>
@@ -376,15 +574,6 @@ buscador.addEventListener('input', () => {
 });
 
 // Cerrar modal de eliminar con ESC o click fuera
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    const modalElim = document.getElementById('modalEliminarAnimal');
-    if (modalElim && modalElim.classList.contains('active')) {
-      cerrarModalEliminar();
-    }
-  }
-});
-
 window.addEventListener('click', (e) => {
   const modalElim = document.getElementById('modalEliminarAnimal');
   if (e.target === modalElim) {

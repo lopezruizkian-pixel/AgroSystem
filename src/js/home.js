@@ -1,16 +1,20 @@
+// Verificar usuario
 const usuarioGuardado = localStorage.getItem('usuarioAgroSystem');
 if (!usuarioGuardado) {
     window.location.href = '../../index.html';
 }
 
-const listaEnfermedades = document.getElementById('listaEnfermedades');
-const btnAgregar = document.getElementById('btnAgregarEnfermedad');
-const inputNombre = document.getElementById('nombreEnfermedad');
-const inputCasos = document.getElementById('numCasos');
+// Elementos del DOM
+const listaVacas = document.getElementById('listaVacas');
+const btnAgregar = document.getElementById('btnAgregarVaca');
+const btnIrEstadisticas = document.getElementById('btnIrEstadisticas');
+const inputNombre = document.getElementById('nombreVaca');
+const selectSexo = document.getElementById('sexoVaca');
 
-let enfermedades = JSON.parse(localStorage.getItem('enfermedades')) || [];
+// Arreglo de vacas (nombre + sexo)
+let vacas = JSON.parse(localStorage.getItem('vacas')) || [];
 
-// Mostrar nombre del usuario en el header (centrado y más grande)
+// Mostrar nombre del usuario en el header
 document.addEventListener('DOMContentLoaded', function() {
     const datosUsuario = JSON.parse(localStorage.getItem('datosUsuarioAgroSystem'));
     if (datosUsuario) {
@@ -21,41 +25,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Función para renderizar lista de vacas
 function renderizarLista() {
-  listaEnfermedades.innerHTML = '';
-  enfermedades.forEach((e, index) => {
+  listaVacas.innerHTML = '';
+  vacas.forEach((vaca, index) => {
     const li = document.createElement('li');
     li.innerHTML = `
-      <span><i class="fas fa-virus"></i> ${e.nombre} - ${e.casos} casos</span>
-      <button class="btn-ver-estadistica" data-index="${index}"><i class="fas fa-arrow-right"></i></button>
+      <span><i class="fas fa-cow"></i> ${vaca.nombre} - ${vaca.sexo}</span>
     `;
-    listaEnfermedades.appendChild(li);
-  });
-
-  const botones = document.querySelectorAll('.btn-ver-estadistica');
-  botones.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const index = btn.dataset.index;
-      localStorage.setItem('enfermedadSeleccionada', index);
-      window.location.href = './estadisticas.html';
-    });
+    listaVacas.appendChild(li);
   });
 }
 
+// Agregar nueva vaca
 btnAgregar.addEventListener('click', () => {
   const nombre = inputNombre.value.trim();
-  const casos = parseInt(inputCasos.value);
+  const sexo = selectSexo.value;
 
-  if (!nombre || !casos || casos <= 0) {
-    alert('Ingrese nombre y casos válidos');
+  if (!nombre) {
+    alert('Ingrese un nombre válido');
     return;
   }
 
-  enfermedades.push({ nombre, casos });
-  localStorage.setItem('enfermedades', JSON.stringify(enfermedades));
+  vacas.push({ nombre, sexo });
+  localStorage.setItem('vacas', JSON.stringify(vacas));
   inputNombre.value = '';
-  inputCasos.value = '';
   renderizarLista();
+});
+
+// Botón para ir a estadísticas
+btnIrEstadisticas.addEventListener('click', () => {
+  localStorage.setItem('vacas', JSON.stringify(vacas));
+  window.location.href = './estadisticas.html';
 });
 
 // Función para ir al perfil
@@ -67,43 +68,31 @@ function irPerfil() {
 function abrirModalCerrarSesion() {
   const modal = document.getElementById('modalCerrarSesion');
   modal.classList.add('active');
-  
-  // Prevenir scroll del body cuando el modal está abierto
   document.body.style.overflow = 'hidden';
 }
 
 function cerrarModalCerrarSesion() {
   const modal = document.getElementById('modalCerrarSesion');
   modal.classList.remove('active');
-  
-  // Restaurar scroll del body
   document.body.style.overflow = 'auto';
 }
 
 function confirmarCerrarSesion() {
-  // Limpiar datos de sesión
   localStorage.removeItem('usuarioAgroSystem');
   localStorage.removeItem('datosUsuarioAgroSystem');
-  
-  // Redirigir al login
   window.location.href = '../../index.html';
 }
 
-// Cerrar modal al hacer clic fuera de él
-window.addEventListener('click', function(event) {
+// Cerrar modal al hacer clic fuera o con ESC
+window.addEventListener('click', (event) => {
   const modal = document.getElementById('modalCerrarSesion');
-  if (event.target === modal) {
-    cerrarModalCerrarSesion();
-  }
+  if (event.target === modal) cerrarModalCerrarSesion();
 });
 
-// Cerrar modal con la tecla ESC
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     const modal = document.getElementById('modalCerrarSesion');
-    if (modal.classList.contains('active')) {
-      cerrarModalCerrarSesion();
-    }
+    if (modal.classList.contains('active')) cerrarModalCerrarSesion();
   }
 });
 

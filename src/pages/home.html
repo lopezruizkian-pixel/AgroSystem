@@ -3,106 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <link rel="icon" type="image/png" href="../img/logo.png">
-
-  <title data-translate="titulo.home">AGROSYSTEM - Home</title>
-
+  <link rel="icon" type="image/png" href="../img/logo.png">
+  <title>AGROSYSTEM - Home</title>
   <link rel="stylesheet" href="../css/estilos.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 </head>
-
 <body>
   <header class="header">
     <div class="logo">
-      <img src="../img/logo.png" alt="Logo Agrosystem" data-translate-alt="logo.alt">
-      <span class="nombre" data-translate="brand.name">AGROSYSTEM</span>
+      <img src="../img/logo.png" alt="Logo Agrosystem">
+      <span class="nombre">AGROSYSTEM</span>
     </div>
-
-    <span class="usuario-bienvenida" id="bienvenidaUsuario" data-translate="texto.bienvenido">
-      Bienvenido, Juan!
-    </span>
-
-
-
-      <!-- PERFIL -->
-      <button onclick="irPerfil()" class="btn-perfil">
-        <i class="fas fa-user"></i> <span data-translate="btn.miPerfil">Mi Perfil</span>
-      </button>
-    </div>
+    <span class="usuario-bienvenida" id="bienvenidaUsuario">Bienvenido, Juan!</span>
+    <button onclick="irPerfil()" class="btn-perfil">
+      <i class="fas fa-user"></i> Mi Perfil
+    </button>
   </header>
 
   <div class="dashboard">
     <div class="contenedor-principal">
       <aside class="sidebar">
-        <div class="menu-items">
-          <button class="menu-btn"><i class="fas fa-cow"></i> <span data-translate="menu.animal">Animal</span></button>
-          <button class="menu-btn"><i class="fas fa-pills"></i> <span data-translate="menu.medicamento">Medicamento</span></button>
-          <button class="menu-btn"><i class="fas fa-file-alt"></i> <span data-translate="menu.tarjeta">Tarjeta de salud</span></button>
-          <button class="menu-btn"><i class="fas fa-notes-medical"></i> <span data-translate="menu.reporte">Reporte médico</span></button>
-          <button class="menu-btn"><i class="fas fa-syringe"></i> <span data-translate="menu.tratamiento">Tratamiento</span></button>
-          <button class="menu-btn"><i class="fas fa-shield-virus"></i> <span data-translate="menu.enfermedad">Enfermedad</span></button>
-        </div>
-
-        <button onclick="abrirModalCerrarSesion()" class="btn-logout-sidebar">
-          <i class="fas fa-sign-out-alt"></i> <span data-translate="btn.cerrarSesion">Cerrar Sesión</span>
-        </button>
+        <button class="menu-btn"><i class="fas fa-cow"></i> Animal</button>
+        <button class="menu-btn"><i class="fas fa-pills"></i> Medicamento</button>
+        <button class="menu-btn"><i class="fas fa-file-alt"></i> Tarjeta de salud</button>
+        <button class="menu-btn"><i class="fas fa-notes-medical"></i> Reporte médico</button>
+        <button class="menu-btn"><i class="fas fa-syringe"></i> Tratamiento</button>
+        <button class="menu-btn"><i class="fas fa-shield-virus"></i> Enfermedad</button>
       </aside>
 
       <main class="contenido">
-        <h2 data-translate="titulo.enfermedades">Enfermedades más frecuentes</h2>
+        <h2>TOTAL DE VACAS</h2>
 
         <div class="estadisticas-home">
-          <ul id="listaEnfermedades"></ul>
+          <ul id="listaVacas"></ul>
         </div>
 
         <div class="form-agregar">
-          <input type="text" id="nombreEnfermedad"
-                 data-translate-placeholder="placeholder.nombre"
-                 placeholder="Nombre enfermedad">
-          <input type="number" id="numCasos"
-                 data-translate-placeholder="placeholder.casos"
-                 placeholder="Casos" min="1">
-          <button id="btnAgregarEnfermedad" data-translate="btn.agregar">Agregar</button>
+          <input type="text" id="nombreVaca" placeholder="Nombre de la vaca">
+          <select id="sexoVaca">
+            <option value="Macho">Macho</option>
+            <option value="Hembra">Hembra</option>
+          </select>
+          <button id="btnAgregarVaca">Agregar</button>
+          <button id="btnIrEstadisticas"><i class="fas fa-arrow-right"></i> Ver Estadísticas</button>
         </div>
       </main>
     </div>
   </div>
-
-  <!-- Modal Cerrar Sesión -->
-  <div id="modalCerrarSesion" class="modal-overlay">
-    <div class="modal-container">
-      <div class="modal-header-custom">
-        <h2 class="modal-title-custom">
-          <i class="fas fa-sign-out-alt"></i> <span data-translate="modal.titulo">Cerrar Sesión</span>
-        </h2>
-        <button onclick="cerrarModalCerrarSesion()" class="btn-close-custom">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-
-      <div class="modal-body-custom">
-        <div class="modal-icon-warning"><i class="fas fa-exclamation-circle"></i></div>
-        <p class="modal-message" data-translate="modal.mensaje">
-          ¿Estás seguro de que deseas cerrar sesión?
-        </p>
-        <p class="modal-submessage" data-translate="modal.submensaje">
-          Se cerrará tu sesión actual y deberás iniciar sesión nuevamente.
-        </p>
-      </div>
-
-      <div class="modal-footer-custom">
-        <button onclick="cerrarModalCerrarSesion()" class="btn-modal-cancelar" data-translate="btn.cancelar">
-          <i class="fas fa-times"></i> Cancelar
-        </button>
-        <button onclick="confirmarCerrarSesion()" class="btn-modal-confirmar" data-translate="btn.cerrarSesionModal">
-          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCRIPTS: traductor.js DEBE ir antes de home.js y navegacion.js -->
 
   <script src="../js/home.js" defer></script>
   <script src="../js/navegacion.js" defer></script>

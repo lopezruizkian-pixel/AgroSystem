@@ -3,29 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="icon" type="image/png" href="../img/logo.png">
-
+  <link rel="icon" type="image/png" href="../img/logo.png">
   <title>Estadísticas - AGROSYSTEM</title>
   <link rel="stylesheet" href="../css/animales.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     .contenido { 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
     }
-    
-    #graficoEnfermedad { 
+    #graficoVacas { 
       max-width: 300px; 
       max-height: 300px; 
     }
-    
     .contenidoEstadisticas { 
       text-align: center; 
       margin-top: 20px; 
     }
-    
     .contenidoEstadisticas p { 
       margin: 5px 0; 
       font-size: 1rem; 
@@ -57,20 +53,14 @@
       </aside>
 
       <main class="contenido">
-        <h2 id="tituloEstadistica">Estadísticas</h2>
-        <canvas id="graficoEnfermedad"></canvas>
+        <h2 id="tituloEstadistica">Estadísticas de Vacas</h2>
+        <canvas id="graficoVacas"></canvas>
         <div class="contenidoEstadisticas" id="contenidoEstadisticas"></div>
       </main>
     </div>
   </div>
 
-  <script src="../js/estadisticas.js"></script>
-  <script src="../js/navegacion.js"></script>
-  <script src="../js/i18n.js"></script>
- 
-<script>
- 
-</script>
-
+  <script src="../js/estadisticas.js" defer></script>
+  <script src="../js/navegacion.js" defer></script>
 </body>
 </html>
