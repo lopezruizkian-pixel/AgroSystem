@@ -279,6 +279,14 @@ function renderizarMedicamentos(lista = medicamentos){
           <p>${med.composicion || 'No especificada'}</p>
         </div>
         <div class="detalle-item">
+          <strong>Solucion</strong>
+          <p>${med.Solucion || 'No especificada'}</p>
+        </div>
+        <div class="detalle-item">
+          <strong>Frecuencia de aplicacion</strong>
+          <p>${med.Frecuenciadeaplicacion || 'No especificada'}</p>
+        </div>
+        <div class="detalle-item">
           <strong>Indicaciones</strong>
           <p>${med.indicaciones || 'No especificadas'}</p>
         </div>
@@ -294,6 +302,7 @@ function renderizarMedicamentos(lista = medicamentos){
       inputCaducidad.value = med.caducidad;
       inputVia.value = med.via;
       inputComposicion.value = med.composicion;
+      imputFrecuenciadeaplicacion =med.Frecuenciadeaplicacion;
       inputIndicaciones.value = med.indicaciones;
       editIndex = medicamentos.indexOf(med);
       modal.style.display = 'flex';
