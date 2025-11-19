@@ -7,6 +7,7 @@ const btnGuardar = document.getElementById('btnGuardarEnfermedad');
 const btnCerrarModal = document.getElementById('btnCerrarModal');
 const btnAgregar = document.querySelector('.btn-agregar');
 const tablaEnfermedades = document.querySelector('.tabla-animales');
+
 const inputNombre = document.getElementById('nombre');
 const inputTipo = document.getElementById('tipo');
 const inputSintomas = document.getElementById('sintomas');
@@ -15,16 +16,56 @@ const inputTratamientos = document.getElementById('tratamientos');
 const selectRiesgo = document.getElementById('riesgo');
 const inputTransmision = document.getElementById('transmision');
 const inputAnalisis = document.getElementById('analisis');
+
 const buscador = document.querySelector('.buscador input');
 
-// Modal de visualización
+// Modal de visualizar
 const modalVisualizar = document.getElementById('modalVisualizarEnfermedad');
 const contenidoEnfermedad = document.getElementById('contenidoEnfermedad');
 const btnCerrarVisualizar = document.getElementById('btnCerrarVisualizar');
 
+// Modal de eliminar
+let enfermedadAEliminar = null;
+
+const modalEliminar = document.createElement('div');
+modalEliminar.id = 'modalEliminarEnfermedad';
+modalEliminar.classList.add('modal-overlay');
+modalEliminar.innerHTML = `
+  <div class="modal-container">
+    <div class="modal-header-custom">
+      <h2 class="modal-title-custom">
+        <i class="fas fa-trash-alt"></i> Eliminar Enfermedad
+      </h2>
+      <button onclick="cerrarModalEliminar()" class="btn-close-custom">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body-custom">
+      <div class="modal-icon-warning" style="background-color: #f8d7da;">
+        <i class="fas fa-exclamation-triangle" style="color: #721c24;"></i>
+      </div>
+      <p class="modal-message">¿Estás seguro de eliminar esta enfermedad?</p>
+      <p class="modal-submessage" id="mensajeEliminarEnfermedad">
+        Esta acción no se puede deshacer.
+      </p>
+    </div>
+    <div class="modal-footer-custom">
+      <button onclick="cerrarModalEliminar()" class="btn-modal-cancelar">
+        <i class="fas fa-times"></i> Cancelar
+      </button>
+      <button onclick="confirmarEliminarEnfermedad()" class="btn-modal-confirmar">
+        <i class="fas fa-trash-alt"></i> Eliminar
+      </button>
+    </div>
+  </div>
+`;
+document.body.appendChild(modalEliminar);
+
 let editIndex = null;
 
-// Abrir modal
+// -------------------------
+// ABRIR MODAL
+// -------------------------
 btnAgregar.addEventListener('click', () => {
   limpiarModal();
   modal.style.display = 'flex';
@@ -32,13 +73,15 @@ btnAgregar.addEventListener('click', () => {
 
 // Cerrar modal agregar/editar
 btnCerrarModal.addEventListener('click', () => modal.style.display = 'none');
-window.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
 
 // Cerrar modal visualizar
 btnCerrarVisualizar.addEventListener('click', () => modalVisualizar.style.display = 'none');
-window.addEventListener('click', (e) => { if(e.target === modalVisualizar) modalVisualizar.style.display = 'none'; });
+window.addEventListener('click', (e) => { if (e.target === modalVisualizar) modalVisualizar.style.display = 'none'; });
 
-// Limpiar modal
+// -------------------------
+// LIMPIAR MODAL
+// -------------------------
 function limpiarModal() {
   inputNombre.value = '';
   inputTipo.value = '';
@@ -51,7 +94,7 @@ function limpiarModal() {
   editIndex = null;
 }
 
-// Función para obtener clase de badge según el riesgo
+// Badge de riesgo
 function getBadgeClass(riesgo) {
   const clases = {
     'Leve': 'badge-leve',
@@ -62,25 +105,30 @@ function getBadgeClass(riesgo) {
   return clases[riesgo] || 'badge-leve';
 }
 
-// Guardar enfermedad (agregar o editar)
+// -------------------------
+// GUARDAR ENFERMEDAD
+// -------------------------
 btnGuardar.addEventListener('click', () => {
   const nombre = inputNombre.value.trim();
   const tipo = inputTipo.value.trim();
-  const sintomas = inputSintomas.value.trim();
-  const duracion = inputDuracion.value.trim();
-  const tratamientos = inputTratamientos.value.trim();
-  const riesgo = selectRiesgo.value;
-  const transmision = inputTransmision.value.trim();
-  const analisis = inputAnalisis.value.trim();
 
-  if(!nombre || !tipo) {
-    alert('Por favor complete al menos nombre y tipo.');
+  if (!nombre || !tipo) {
+    alert('Debe llenar al menos Nombre y Tipo.');
     return;
   }
 
-  const enfermedadData = { nombre, tipo, sintomas, duracion, tratamientos, riesgo, transmision, analisis };
+  const enfermedadData = {
+    nombre,
+    tipo,
+    sintomas: inputSintomas.value.trim(),
+    duracion: inputDuracion.value.trim(),
+    tratamientos: inputTratamientos.value.trim(),
+    riesgo: selectRiesgo.value,
+    transmision: inputTransmision.value.trim(),
+    analisis: inputAnalisis.value.trim()
+  };
 
-  if(editIndex !== null) {
+  if (editIndex !== null) {
     enfermedades[editIndex] = enfermedadData;
   } else {
     enfermedades.push(enfermedadData);
@@ -90,11 +138,41 @@ btnGuardar.addEventListener('click', () => {
   renderizarEnfermedades();
 });
 
-// Renderizar enfermedades
+// -------------------------
+// MODAL DE ELIMINAR
+// -------------------------
+function abrirModalEliminar(enfermedad) {
+  enfermedadAEliminar = enfermedad;
+
+  document.getElementById('mensajeEliminarEnfermedad').textContent =
+    `Se eliminará la enfermedad "${enfermedad.nombre}".`;
+
+  document.getElementById('modalEliminarEnfermedad').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModalEliminar() {
+  document.getElementById('modalEliminarEnfermedad').classList.remove('active');
+  document.body.style.overflow = 'auto';
+  enfermedadAEliminar = null;
+}
+
+function confirmarEliminarEnfermedad() {
+  if (enfermedadAEliminar) {
+    const idx = enfermedades.indexOf(enfermedadAEliminar);
+    enfermedades.splice(idx, 1);
+    renderizarEnfermedades();
+  }
+  cerrarModalEliminar();
+}
+
+// -------------------------
+// RENDERIZAR TABLA
+// -------------------------
 function renderizarEnfermedades(lista = enfermedades) {
   tablaEnfermedades.innerHTML = '';
 
-  if(lista.length === 0){
+  if (lista.length === 0) {
     tablaEnfermedades.innerHTML = '<p>No hay enfermedades registradas.</p>';
     return;
   }
@@ -105,6 +183,7 @@ function renderizarEnfermedades(lista = enfermedades) {
       <tr>
         <th>Nombre</th>
         <th>Tipo</th>
+        <th>Riesgo</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -112,58 +191,35 @@ function renderizarEnfermedades(lista = enfermedades) {
   `;
   const tbody = tabla.querySelector('tbody');
 
-  lista.forEach((enfermedad, index) => {
+  lista.forEach(enfermedad => {
     const fila = document.createElement('tr');
     fila.innerHTML = `
       <td>${enfermedad.nombre}</td>
       <td>${enfermedad.tipo}</td>
+      <td><span class="badge-riesgo ${getBadgeClass(enfermedad.riesgo)}">${enfermedad.riesgo}</span></td>
       <td>
-        <button class="btn-visualizar">👁️</button>
+        <button class="btn-ver">👁️</button>
         <button class="btn-editar">✏️</button>
         <button class="btn-eliminar">🗑️</button>
       </td>
     `;
 
-    // Visualizar - con modal mejorado
-    fila.querySelector('.btn-visualizar').addEventListener('click', () => {
+    // VISUALIZAR
+    fila.querySelector('.btn-ver').addEventListener('click', () => {
       contenidoEnfermedad.innerHTML = `
-        <div class="detalle-item">
-          <strong>Nombre</strong>
-          <p>${enfermedad.nombre}</p>
-        </div>
-        <div class="detalle-item">
-          <strong>Tipo</strong>
-          <p>${enfermedad.tipo}</p>
-        </div>
-        <div class="detalle-item">
-          <strong>Síntomas</strong>
-          <p>${enfermedad.sintomas || 'No especificados'}</p>
-        </div>
-        <div class="detalle-item">
-          <strong>Duración Estimada</strong>
-          <p>${enfermedad.duracion || 'No especificada'}</p>
-        </div>
-        <div class="detalle-item">
-          <strong>Tratamientos Recomendados</strong>
-          <p>${enfermedad.tratamientos || 'No especificados'}</p>
-        </div>
-        <div class="detalle-item">
-          <strong>Nivel de Riesgo</strong>
-          <p><span class="badge-riesgo ${getBadgeClass(enfermedad.riesgo)}">${enfermedad.riesgo}</span></p>
-        </div>
-        <div class="detalle-item">
-          <strong>Modo de Transmisión</strong>
-          <p>${enfermedad.transmision || 'No especificado'}</p>
-        </div>
-        <div class="detalle-item">
-          <strong>Análisis</strong>
-          <p>${enfermedad.analisis || 'No especificado'}</p>
-        </div>
+        <p><strong>Nombre:</strong> ${enfermedad.nombre}</p>
+        <p><strong>Tipo:</strong> ${enfermedad.tipo}</p>
+        <p><strong>Síntomas:</strong> ${enfermedad.sintomas}</p>
+        <p><strong>Duración:</strong> ${enfermedad.duracion}</p>
+        <p><strong>Tratamientos:</strong> ${enfermedad.tratamientos}</p>
+        <p><strong>Riesgo:</strong> <span class="badge-riesgo ${getBadgeClass(enfermedad.riesgo)}">${enfermedad.riesgo}</span></p>
+        <p><strong>Transmisión:</strong> ${enfermedad.transmision}</p>
+        <p><strong>Análisis:</strong> ${enfermedad.analisis}</p>
       `;
       modalVisualizar.style.display = 'flex';
     });
 
-    // Editar
+    // EDITAR
     fila.querySelector('.btn-editar').addEventListener('click', () => {
       inputNombre.value = enfermedad.nombre;
       inputTipo.value = enfermedad.tipo;
@@ -173,17 +229,15 @@ function renderizarEnfermedades(lista = enfermedades) {
       selectRiesgo.value = enfermedad.riesgo;
       inputTransmision.value = enfermedad.transmision;
       inputAnalisis.value = enfermedad.analisis;
+
       editIndex = enfermedades.indexOf(enfermedad);
+
       modal.style.display = 'flex';
     });
 
-    // Eliminar - SIN MODIFICAR LA LÓGICA ORIGINAL
+    // ELIMINAR
     fila.querySelector('.btn-eliminar').addEventListener('click', () => {
-      if(confirm('¿Desea eliminar esta enfermedad?')){
-        const globalIndex = enfermedades.indexOf(enfermedad);
-        enfermedades.splice(globalIndex, 1);
-        renderizarEnfermedades();
-      }
+      abrirModalEliminar(enfermedad);
     });
 
     tbody.appendChild(fila);
@@ -192,7 +246,9 @@ function renderizarEnfermedades(lista = enfermedades) {
   tablaEnfermedades.appendChild(tabla);
 }
 
-// Buscar enfermedades
+// -------------------------
+// BUSCADOR
+// -------------------------
 buscador.addEventListener('input', () => {
   const texto = buscador.value.toLowerCase();
   const resultados = enfermedades.filter(e =>
@@ -202,5 +258,5 @@ buscador.addEventListener('input', () => {
   renderizarEnfermedades(resultados);
 });
 
-// Inicializar
+// Inicializar tabla
 renderizarEnfermedades();
